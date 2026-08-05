@@ -8,4 +8,6 @@ public abstract class BasePlayerService : MonoBehaviour
     {
         m_playerManager = playerManager;
     }
+
+    public virtual void Init() { }
 }

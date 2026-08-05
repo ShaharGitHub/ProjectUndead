@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    // Player data
+    public PlayerDataSO PlayerData {  get; private set; }
+
     // All player sub services
     private Dictionary<Type, object> m_services = new Dictionary<Type, object>();
 
