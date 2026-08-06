@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b34b80f86a8084f87445c9e68f2af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  <PlayerData>k__BackingField: {fileID: 11400000, guid: c0de737e8357791469be9f8a67bd78bf, type: 2}
 --- !u!1 &6405685846541115749
 GameObject:
   m_ObjectHideFlags: 0

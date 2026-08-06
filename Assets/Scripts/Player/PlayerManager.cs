@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     // Player data
-    public PlayerDataSO PlayerData {  get; private set; }
+    [field: SerializeField] public PlayerDataSO PlayerData {  get; private set; }
 
     // All player sub services
     private Dictionary<Type, object> m_services = new Dictionary<Type, object>();
@@ -24,16 +24,8 @@ public class PlayerManager : MonoBehaviour
         InitAllServices();
 
         m_inputProvider = GetService<IInputProvider>();
-    }
-
-    private void OnEnable()
-    {
-        if (m_inputProvider != null) m_inputProvider.OnInputUpdated += HandleInputUpdated;
-    }
-
-    private void OnDisable()
-    {
-        if (m_inputProvider != null) m_inputProvider.OnInputUpdated -= HandleInputUpdated;
+        if (m_inputProvider != null)
+            m_inputProvider.OnInputUpdated += HandleInputUpdated;
     }
 
     private void RegisterAllServices()
@@ -71,6 +63,7 @@ public class PlayerManager : MonoBehaviour
         foreach (var service in m_services.Values.OfType<BasePlayerService>().Distinct())
         {
             service.GetPlayerManager(this);
+            service.Init();
         }
     }
 
@@ -87,5 +80,11 @@ public class PlayerManager : MonoBehaviour
     private void HandleInputUpdated(InputData data)
     {
         OnPlayerInputUpdated?.Invoke(data);
+    }
+
+    private void OnDestroy()
+    {
+        if (m_inputProvider != null)
+            m_inputProvider.OnInputUpdated -= HandleInputUpdated;
     }
 }
