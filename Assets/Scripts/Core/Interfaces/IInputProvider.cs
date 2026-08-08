@@ -6,6 +6,7 @@ public class InputData
 {
     public Vector2 Movement;
     public Vector2 Look;
+    public bool Sprint;
     public bool Jump;
     public bool Aim;
     public bool Shoot;

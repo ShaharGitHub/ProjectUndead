@@ -10,6 +10,8 @@ public class PlayerDataSO : ScriptableObject
     public int MaxHealth;
 
     [Header("Movement:")]
-    public float MovementSpeed;
     public float LookSpeed;
+    public float MovementSpeed;
+    public float SprintSpeed;
+    public float JumpHeight;
 }

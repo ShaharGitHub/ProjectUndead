@@ -82,6 +82,11 @@ public class PlayerManager : MonoBehaviour
         OnPlayerInputUpdated?.Invoke(data);
     }
 
+    private void OnCollisionEnter(Collision col)
+    {
+        GetService<PlayerControl>()?.HandleCollision(col);
+    }
+
     private void OnDestroy()
     {
         if (m_inputProvider != null)

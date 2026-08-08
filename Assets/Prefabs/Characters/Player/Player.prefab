@@ -188,6 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
   m_playerManager: {fileID: 0}
+  m_groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  m_groundCheckDistance: 0.2
+  m_isGrounded: 0
 --- !u!1 &4587640788824400421
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +302,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &4489212805860976884
 CapsuleCollider:
@@ -370,6 +375,7 @@ MonoBehaviour:
   inputData:
     Movement: {x: 0, y: 0}
     Look: {x: 0, y: 0}
+    Sprint: 0
     Jump: 0
     Aim: 0
     Shoot: 0

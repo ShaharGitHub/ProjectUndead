@@ -35,6 +35,9 @@ public class PlayerInput : BasePlayerService, IInputProvider
     {
         control?.Enable();
 
+        control.Player.Sprint.performed += ctx => { inputData.Sprint = true; TriggerInputEvent(); };
+        control.Player.Sprint.canceled += ctx => { inputData.Sprint = false; TriggerInputEvent(); };
+
         control.Player.Jump.performed += ctx => { inputData.Jump = true; TriggerInputEvent(); };
 
         control.Player.Aim.performed += ctx => { inputData.Aim = true; TriggerInputEvent(); };
@@ -51,6 +54,9 @@ public class PlayerInput : BasePlayerService, IInputProvider
 
     private void OnDisable()
     {
+        control.Player.Sprint.performed -= ctx => { inputData.Sprint = true; TriggerInputEvent(); };
+        control.Player.Sprint.canceled -= ctx => { inputData.Sprint = false; TriggerInputEvent(); };
+
         control.Player.Jump.performed -= ctx => { inputData.Jump = true; TriggerInputEvent(); };
 
         control.Player.Aim.performed -= ctx => { inputData.Aim = true; TriggerInputEvent(); };
@@ -101,8 +107,6 @@ public class PlayerInput : BasePlayerService, IInputProvider
     private void ResetInput()
     {
         inputData.Jump = false;
-        //inputData.Aim = false;
-        //inputData.Shoot = false;
         inputData.Reload = false;
         inputData.Melee = false;
         inputData.Grenade = false;
