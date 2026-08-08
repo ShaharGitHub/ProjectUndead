@@ -70,7 +70,7 @@ public class PlayerControl : BasePlayerService
         if (m_currentInputData.Sprint && m_isGrounded)
             return m_playerManager.PlayerData.SprintSpeed;
         else
-            return m_playerManager.PlayerData.MovementSpeed;
+            return m_playerManager.PlayerData.WalkSpeed;
     }
 
     private void Movement()

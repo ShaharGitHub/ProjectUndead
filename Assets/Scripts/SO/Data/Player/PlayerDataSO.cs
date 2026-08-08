@@ -11,7 +11,7 @@ public class PlayerDataSO : ScriptableObject
 
     [Header("Movement:")]
     public float LookSpeed;
-    public float MovementSpeed;
+    public float WalkSpeed;
     public float SprintSpeed;
     public float JumpHeight;
 }

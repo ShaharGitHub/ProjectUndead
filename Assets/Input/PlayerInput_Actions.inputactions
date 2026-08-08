@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
+                    "name": "ADS",
                     "type": "Button",
                     "id": "d66cd1ad-1193-4d69-ba19-89d9c322d852",
                     "expectedControlType": "",
@@ -182,7 +182,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Aim",
+                    "action": "ADS",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

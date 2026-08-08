@@ -40,8 +40,8 @@ public class PlayerInput : BasePlayerService, IInputProvider
 
         control.Player.Jump.performed += ctx => { inputData.Jump = true; TriggerInputEvent(); };
 
-        control.Player.Aim.performed += ctx => { inputData.Aim = true; TriggerInputEvent(); };
-        control.Player.Aim.canceled += ctx => { inputData.Aim = false; TriggerInputEvent(); };
+        control.Player.ADS.performed += ctx => { inputData.ADS = true; TriggerInputEvent(); };
+        control.Player.ADS.canceled += ctx => { inputData.ADS = false; TriggerInputEvent(); };
 
         control.Player.Shoot.performed += ctx => { inputData.Shoot = true; TriggerInputEvent(); };
         control.Player.Shoot.canceled += ctx => { inputData.Shoot = false; TriggerInputEvent(); };
@@ -59,8 +59,8 @@ public class PlayerInput : BasePlayerService, IInputProvider
 
         control.Player.Jump.performed -= ctx => { inputData.Jump = true; TriggerInputEvent(); };
 
-        control.Player.Aim.performed -= ctx => { inputData.Aim = true; TriggerInputEvent(); };
-        control.Player.Aim.canceled -= ctx => { inputData.Aim = false; TriggerInputEvent(); };
+        control.Player.ADS.performed -= ctx => { inputData.ADS = true; TriggerInputEvent(); };
+        control.Player.ADS.canceled -= ctx => { inputData.ADS = false; TriggerInputEvent(); };
 
         control.Player.Shoot.performed -= ctx => { inputData.Shoot = true; TriggerInputEvent(); };
         control.Player.Shoot.canceled -= ctx => { inputData.Shoot = false; TriggerInputEvent(); };
