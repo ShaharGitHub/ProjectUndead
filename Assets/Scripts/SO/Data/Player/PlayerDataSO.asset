@@ -15,6 +15,6 @@ MonoBehaviour:
   Model: {fileID: 612728824731504890, guid: 6e9e4455a0708a649b0dd8fdf7c151a0, type: 3}
   MaxHealth: 100
   LookSpeed: 10
-  MovementSpeed: 10
+  WalkSpeed: 10
   SprintSpeed: 15
   JumpHeight: 2
