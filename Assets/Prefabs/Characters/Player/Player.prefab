@@ -203,6 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1423486642912135046}
+  - component: {fileID: 8110037392082073971}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -225,6 +226,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 771168360128600715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8110037392082073971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4564944721873322573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc32070530d6a17498adb1309ab728b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  m_playerManager: {fileID: 0}
 --- !u!1 &4587640788824400421
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +423,7 @@ MonoBehaviour:
     Look: {x: 0, y: 0}
     Sprint: 0
     Jump: 0
-    Aim: 0
+    ADS: 0
     Shoot: 0
     Reload: 0
     Melee: 0
