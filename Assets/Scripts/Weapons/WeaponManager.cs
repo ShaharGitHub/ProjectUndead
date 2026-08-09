@@ -10,16 +10,22 @@ public class WeaponManager : MonoBehaviour
     [field: SerializeField] public BaseWeaponData m_currentWeaponData { get; private set; }
 
 
-    public void SetData(BaseWeaponData weaponData)
+    private void Awake()
     {
-        m_currentWeaponData = weaponData;
+        RegisterAllServices();
     }
 
     public void Start()
     {
-        if (m_currentWeaponData == null) return;
+        if (m_currentWeaponData != null)
+        {
+            InitAllServices();
+        }
+    }
 
-        RegisterAllServices();
+    public void SetData(BaseWeaponData weaponData)
+    {
+        m_currentWeaponData = weaponData;
         InitAllServices();
     }
 

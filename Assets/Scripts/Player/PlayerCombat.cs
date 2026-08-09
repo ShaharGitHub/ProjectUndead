@@ -6,9 +6,9 @@ public class PlayerCombat : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
-    [field: SerializeField] public IWeapon m_currentWeapon { get; private set; }
+    public IWeapon m_currentWeapon { get; private set; }
 
-    private bool m_canUseWeapon = true;
+    //private bool m_canUseWeapon = true;
 
 
     private void OnDisable()
@@ -32,11 +32,6 @@ public class PlayerCombat : BasePlayerService
         m_currentInputData = inputData;
     }
 
-    //private void CanUseWeapon()
-    //{
-    //    m_canUseWeapon = !m_canUseWeapon;
-    //}
-
     public void SetWeapon(IWeapon newWeapon)
     {
         // Pickup weapon
@@ -45,7 +40,7 @@ public class PlayerCombat : BasePlayerService
 
     private void Update()
     {
-        if ( m_currentWeapon == null) { return; }
+        if (m_currentWeapon == null || m_currentInputData == null) return;
 
         // If user active power up
         if (m_currentInputData.Shoot)
@@ -56,7 +51,7 @@ public class PlayerCombat : BasePlayerService
 
     private void UseWeapon()
     {
-        if (!m_canUseWeapon) return;
+        //if (!m_canUseWeapon) return;
 
         // Use weapon
         m_currentWeapon.Use();

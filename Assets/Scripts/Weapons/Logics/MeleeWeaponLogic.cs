@@ -27,4 +27,9 @@ public class MeleeWeaponLogic : IWeapon
         // To use coroutine, use player manager (need monoBehaviour)
         //carManager.StartCoroutine(BoostProcess(carManager));
     }
+
+    public void Drop()
+    {
+        Debug.Log("Melee Weapon droped");
+    }
 }
