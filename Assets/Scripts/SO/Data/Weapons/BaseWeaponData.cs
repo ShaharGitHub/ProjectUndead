@@ -9,6 +9,4 @@ public abstract class BaseWeaponData : ScriptableObject
     public WeaponTypes Type;
     public GameObject Prefab;
     public float Damage;
-
-    public abstract IWeapon CreateWeapon();
 }

@@ -8,9 +8,4 @@ public class MeleeWeaponDataSO : BaseWeaponData
 
     [Header("Animations:")]
     public AnimationClip UseAnimation;     // <- Shoot animation
-
-    public override IWeapon CreateWeapon()
-    {
-        return new MeleeWeaponLogic(this);
-    }
 }

@@ -21,9 +21,4 @@ public class RangeWeaponDataSO : BaseWeaponData
     [Header("Animations:")]
     public AnimationClip UseAnimation;     // <- Shoot animation
     public AnimationClip ReloadAnimation;  // <- Reload animation
-
-    public override IWeapon CreateWeapon()
-    {
-        return new RangeWeaponLogic(this);
-    }
 }

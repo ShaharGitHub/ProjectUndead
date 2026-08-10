@@ -20,6 +20,8 @@ public class WeaponManager : MonoBehaviour
         if (m_currentWeaponData != null)
         {
             InitAllServices();
+            // Try to add delay to fitcollider (until model is spawn)
+            GetService<WeaponModel>().OnModelReady += HandleModelIsReady;
         }
     }
 
@@ -76,5 +78,16 @@ public class WeaponManager : MonoBehaviour
             return null;
         }
         return (T)m_weaponServices[typeof(T)];
+    }
+
+    private void HandleModelIsReady()
+    {
+        if (TryGetComponent<FitCollider>(out FitCollider fitCollider))
+            fitCollider.Init();
+    }
+
+    private void OnDestroy()
+    {
+        GetService<WeaponModel>().OnModelReady -= HandleModelIsReady;
     }
 }
