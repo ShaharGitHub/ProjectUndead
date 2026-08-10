@@ -31,8 +31,8 @@ Transform:
   m_Children:
   - {fileID: 413871730547066670}
   - {fileID: 655435512667878625}
-  - {fileID: 1423486642912135046}
   - {fileID: 8833359878797322879}
+  - {fileID: 1423486642912135046}
   m_Father: {fileID: 5996862274428431421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2385359224111851143
@@ -312,6 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8833359878797322879}
+  - component: {fileID: 5691378340379724441}
   m_Layer: 0
   m_Name: Interact
   m_TagString: Untagged
@@ -334,6 +335,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 771168360128600715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5691378340379724441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238018948463250371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a0494fc0d7074b44bd74cd6963b147a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
 --- !u!1 &5414561610591291648
 GameObject:
   m_ObjectHideFlags: 0

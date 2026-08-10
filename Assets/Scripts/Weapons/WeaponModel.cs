@@ -12,7 +12,7 @@ public class WeaponModel : BaseWeaponService
         SpawnModel();
     }
 
-    private void SpawnModel()
+    public void SpawnModel()
     {
         BaseWeaponData weaponData = m_weaponManager.m_currentWeaponData;
 

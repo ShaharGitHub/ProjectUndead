@@ -40,9 +40,8 @@ public class PlayerCombat : BasePlayerService
 
     private void Update()
     {
-        if (m_currentWeapon == null || m_currentInputData == null) return;
+        if (m_currentInputData == null) return;
 
-        // If user active power up
         if (m_currentInputData.Shoot)
         {
             UseWeapon();
@@ -51,6 +50,8 @@ public class PlayerCombat : BasePlayerService
 
     private void UseWeapon()
     {
+        if (m_currentWeapon == null) return;
+
         //if (!m_canUseWeapon) return;
 
         // Use weapon

@@ -19,28 +19,26 @@ public class WeaponPickup : BaseWeaponService
 
         playerCombat.SetWeapon(weaponLogic);
 
-        // Attach weapon to player
+        // Check if player have already weapon
         Transform playerWeaponPos = playerCombat.transform.GetChild(0);
         if (playerWeaponPos.childCount != 0)
         {
-            if (playerWeaponPos.GetChild(0).transform.TryGetComponent<WeaponManager>(out WeaponManager oldWeapon))
-            {
-                //oldWeapon.Drop();
-                oldWeapon.transform.parent = null;
+            // Disconnect weapon from player
+            // Drop();
+            m_weaponManager.transform.parent = null;
 
-                Rigidbody weaponRb = oldWeapon.transform.AddComponent<Rigidbody>();
-                weaponRb.AddForce(transform.right * -200 + transform.up * 100);
-            }
-            else
-            {
-                Destroy(playerWeaponPos.GetChild(0).gameObject);
-            }
+            // Drop weapon from hands forward
+            Rigidbody weaponRb = m_weaponManager.transform.AddComponent<Rigidbody>();
+            weaponRb.AddForce(transform.right * -200 + transform.up * 100);
         }
 
+        // Create new weapon on player hands
         GameObject weapon = Instantiate(m_weaponManager.gameObject, playerWeaponPos);
         weapon.transform.localPosition = Vector3.zero;
         weapon.transform.localRotation = Quaternion.identity;
+        weapon.transform.localScale = Vector3.one;
 
+        // Destroy weapon from wall (if true)
         if (m_destroyOnPickup)
             Destroy(m_weaponManager.gameObject);
     }
