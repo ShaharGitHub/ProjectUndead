@@ -11,6 +11,8 @@ public class WeaponManager : MonoBehaviour, IWeapon
     [SerializeField] private BaseWeaponData m_currentWeaponData;
     [SerializeField] private IWeaponLogic m_currentWeaponLogic;
 
+    [SerializeField] private bool m_destroyOnEquip = false;
+
 
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class WeaponManager : MonoBehaviour, IWeapon
         if (m_currentWeaponData != null)
         {
             m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
+            m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
             InitAllServices();
         }
     }
@@ -30,12 +33,28 @@ public class WeaponManager : MonoBehaviour, IWeapon
     {
         m_currentWeaponData = weaponData;
         m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
+        m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
         InitAllServices();
     }
 
     public IWeaponLogic GetLogic()
     {
         return m_currentWeaponLogic;
+    }
+
+    public void DisableDestroyOnEquip()
+    {
+        m_destroyOnEquip = true;
+    }
+
+    public void UseWeapon()
+    {
+        Debug.Log("Shoot");
+    }
+
+    public void DestroyWeapon()
+    {
+        Destroy(gameObject);
     }
 
     private void RegisterAllServices()
@@ -86,14 +105,4 @@ public class WeaponManager : MonoBehaviour, IWeapon
         }
         return (T)m_weaponServices[typeof(T)];
     } 
-
-    public void UseWeapon()
-    {
-        Debug.Log("Shoot");
-    }
-
-    public void DestroyWeapon()
-    {
-        Destroy(gameObject);
-    }
 }

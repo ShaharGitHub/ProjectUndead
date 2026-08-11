@@ -8,6 +8,7 @@ public class PlayerWeaponSlot : BasePlayerService
     [Min(1)][SerializeField] private int m_maxSlots; // Max weapon amout to hold
     [SerializeField] private IWeapon[] m_currentWeapons;
     private int m_activeWeaponIndex = 0;
+    private int m_switchWeaponIndex;
 
 
     private void Awake()
@@ -32,17 +33,15 @@ public class PlayerWeaponSlot : BasePlayerService
     private void HandleInput(InputData inputData)
     {
         m_currentInputData = inputData;
+        m_switchWeaponIndex = m_currentInputData.Scroll;
     }
 
     private void Update()
     {
         if (m_currentInputData == null) return;
 
-        Debug.Log(m_currentInputData.Scroll);
-        if (m_currentInputData.Scroll != 0)
-        {
-            SwitchWeaponIndex(m_currentInputData.Scroll);
-        }
+        Debug.Log(m_switchWeaponIndex);
+        SwitchWeaponIndex(m_switchWeaponIndex);
 
         if (m_currentInputData.Drop)
         {
@@ -82,22 +81,27 @@ public class PlayerWeaponSlot : BasePlayerService
 
     private void SwitchWeaponIndex(int side)
     {
-        SwitchWeaponObject(false);
-
-        if (side > 0)
+        if (side != 0 && m_currentWeapons.Length != 0 && m_currentWeapons[m_activeWeaponIndex] != null)
         {
-            m_activeWeaponIndex++;
-            if (m_activeWeaponIndex >= m_currentWeapons.Length)
-                m_activeWeaponIndex = 0;
-        }
-        else
-        {
-            m_activeWeaponIndex--;
-            if (m_activeWeaponIndex < 0)
-                m_activeWeaponIndex = m_currentWeapons.Length;
+            SwitchWeaponObject(false);
+
+            if (side > 0)
+            {
+                m_activeWeaponIndex++;
+                if (m_activeWeaponIndex >= m_currentWeapons.Length)
+                    m_activeWeaponIndex--;
+            }
+            else
+            {
+                m_activeWeaponIndex--;
+                if (m_activeWeaponIndex < 0)
+                    m_activeWeaponIndex++;
+            }
+
+            SwitchWeaponObject(true);
         }
 
-        SwitchWeaponObject(true);
+        m_switchWeaponIndex = 0;
     }
 
     private void SwitchWeaponObject(bool stat)

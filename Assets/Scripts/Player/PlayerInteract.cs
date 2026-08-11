@@ -47,12 +47,15 @@ public class PlayerInteract : BasePlayerService
     {
         if (eyesCamera == null) return;
 
-        // Check reycast
+        // Create ray exit point
         Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
 
+        // Check for hits
         if (Physics.Raycast(rayOrigin, eyesCamera.transform.forward, out RaycastHit hit, m_rayRange))
         {
-            Debug.Log($"Hit: {hit.transform.name}");
+            //Debug.Log($"Hit: {hit.transform.name}");
+
+            // Interact Weapon
             if (hit.transform.TryGetComponent<IWeapon>(out IWeapon weapon))
             {
                 PlayerWeaponSlot weaponSlots = m_playerManager.GetService<PlayerWeaponSlot>();
@@ -66,7 +69,6 @@ public class PlayerInteract : BasePlayerService
         if (eyesCamera == null) return;
 
         Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-
         Gizmos.color = Color.red;
         Gizmos.DrawRay(rayOrigin, eyesCamera.transform.forward * m_rayRange);
     }

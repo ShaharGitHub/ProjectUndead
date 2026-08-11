@@ -24,22 +24,21 @@ public class RangeWeaponLogic : IWeaponLogic
 
     public WeaponManager Equip(WeaponManager equipWeapon, Transform handSlot) // Used by "PlayerInteract"
     {
-        // Drop previous weapon from player hand
-        //if (handSlot.childCount != 0)
-        //{
-        //    if (handSlot.GetChild(0).TryGetComponent<WeaponManager>(out WeaponManager weaponManager))
-        //        Drop(weaponManager);
-        //}
-
         // Create new weapon on player hand
         WeaponManager newWeapon = Object.Instantiate(equipWeapon, handSlot);
         newWeapon.SetData(equipWeapon.GetLogic().GetData());
+        newWeapon.DisableDestroyOnEquip();
 
         // Create new weapon on player hands
-        //newWeapon.transform.SetParent(handSlot);
         newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localRotation = Quaternion.identity;
         newWeapon.transform.localScale = Vector3.one;
+
+        // Stop weapon gravity
+        if (newWeapon.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
+        {
+            weaponRb.isKinematic = true;
+        }
 
         // Destroy weapon in m_destroyOnEquip = true
         if (m_destroyOnEquip)

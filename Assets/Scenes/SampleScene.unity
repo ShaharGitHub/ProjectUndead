@@ -948,18 +948,6 @@ PrefabInstance:
       value: Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.830761
       objectReference: {fileID: 0}
@@ -1155,21 +1143,13 @@ PrefabInstance:
       value: Weapon (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_destroyOnEquip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_currentWeaponData
       value: 
       objectReference: {fileID: 11400000, guid: 3a68cd4085e622c4aa24ff2222b2507b, type: 2}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.16923904
@@ -1788,21 +1768,13 @@ PrefabInstance:
       value: Weapon (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_destroyOnEquip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_currentWeaponData
       value: 
       objectReference: {fileID: 11400000, guid: 10407e55ccc0e73488c3bb185aa05396, type: 2}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.830761
@@ -2025,6 +1997,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 31741994739828919, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_maxSlots
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5414561610591291648, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_Name
       value: Player
