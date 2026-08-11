@@ -13,4 +13,9 @@ public class ThrowableWeaponDataSO : BaseWeaponData
     [Header("Animations:")]
     public AnimationClip HoldAnimation;
     public AnimationClip ReleaseAnimation;
+
+    public override IWeaponLogic CreateWeapon()
+    {
+        return new ThrowableWeaponLogic(this);
+    }
 }

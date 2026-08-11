@@ -42,19 +42,19 @@ public class PlayerCombat : BasePlayerService
     {
         if (m_currentInputData == null) return;
 
-        if (m_currentInputData.Shoot)
-        {
-            UseWeapon();
-        }
+        //if (m_currentInputData.Shoot)
+        //{
+        //    UseWeapon();
+        //}
     }
 
-    private void UseWeapon()
-    {
-        if (m_currentWeapon == null) return;
+    //private void UseWeapon()
+    //{
+    //    if (m_currentWeapon == null) return;
 
-        //if (!m_canUseWeapon) return;
+    //    //if (!m_canUseWeapon) return;
 
-        // Use weapon
-        m_currentWeapon.Use();
-    }
+    //    // Use weapon
+    //    //m_currentWeapon.Use();
+    //}
 }

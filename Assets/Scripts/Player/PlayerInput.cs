@@ -10,9 +10,11 @@ public class PlayerInput : BasePlayerService, IInputProvider
     // Vector2 input actions
     private InputAction movementAction;
     private InputAction lookAction;
+    private InputAction scrollAction;
 
     private Vector2 lastSentMovement;
     private Vector2 lastSentLook;
+    private int lastSentScroll;
 
     // Input data to send by event
     public InputData inputData;
@@ -29,6 +31,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
 
         movementAction = control?.Player.Movement;
         lookAction = control?.Player.Look;
+        scrollAction = control?.Player.Scroll;
     }
 
     private void OnEnable()
@@ -39,6 +42,8 @@ public class PlayerInput : BasePlayerService, IInputProvider
         control.Player.Sprint.canceled += ctx => { inputData.Sprint = false; TriggerInputEvent(); };
 
         control.Player.Jump.performed += ctx => { inputData.Jump = true; TriggerInputEvent(); };
+
+        control.Player.Drop.performed += ctx => { inputData.Drop = true; TriggerInputEvent(); };
 
         control.Player.ADS.performed += ctx => { inputData.ADS = true; TriggerInputEvent(); };
         control.Player.ADS.canceled += ctx => { inputData.ADS = false; TriggerInputEvent(); };
@@ -59,6 +64,8 @@ public class PlayerInput : BasePlayerService, IInputProvider
 
         control.Player.Jump.performed -= ctx => { inputData.Jump = true; TriggerInputEvent(); };
 
+        control.Player.Drop.performed -= ctx => { inputData.Drop = true; TriggerInputEvent(); };
+
         control.Player.ADS.performed -= ctx => { inputData.ADS = true; TriggerInputEvent(); };
         control.Player.ADS.canceled -= ctx => { inputData.ADS = false; TriggerInputEvent(); };
 
@@ -76,6 +83,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
     private void Update()
     {
         ReadContinuousInputs();
+        //Debug_CheckInput();
     }
 
     private void LateUpdate()
@@ -90,14 +98,24 @@ public class PlayerInput : BasePlayerService, IInputProvider
             Vector2 currentMovement = movementAction.ReadValue<Vector2>();
             Vector2 currentLook = lookAction.ReadValue<Vector2>();
 
+            int currentScroll = 0;
+            if (scrollAction != null)
+            {
+                float scrollValue = scrollAction.ReadValue<Vector2>().y;
+                if (scrollValue > 0f) currentScroll = 1;
+                else if (scrollValue < 0f) currentScroll = -1;
+            }
+
             // Check player last movement
-            if (currentMovement != lastSentMovement || currentLook != lastSentLook)
+            if (currentMovement != lastSentMovement || currentLook != lastSentLook || currentScroll != lastSentScroll)
             {
                 inputData.Movement = currentMovement;
                 inputData.Look = currentLook;
+                inputData.Scroll = currentScroll;
 
                 lastSentMovement = currentMovement;
                 lastSentLook = currentLook;
+                lastSentScroll = currentScroll;
 
                 TriggerInputEvent();
             }
@@ -107,14 +125,23 @@ public class PlayerInput : BasePlayerService, IInputProvider
     private void ResetInput()
     {
         inputData.Jump = false;
+        inputData.Drop = false;
         inputData.Reload = false;
         inputData.Melee = false;
         inputData.Grenade = false;
         inputData.Interact = false;
+
+        inputData.Scroll = 0;
+        lastSentScroll = 0;
     }
 
     private void TriggerInputEvent()
     {
         OnInputUpdated?.Invoke(inputData);
+    }
+
+    private void Debug_CheckInput()
+    {
+        Debug.Log(inputData.Scroll);
     }
 }

@@ -5,10 +5,16 @@ public class PlayerInteract : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
+    // Weapon
+    [SerializeField] private float m_rayRange;
+
+    // References
+    private Camera eyesCamera;
+
+
     private void OnDisable()
     {
         m_playerManager.OnPlayerInputUpdated -= HandleInput;
-        // Add event to weapon pickup (Set Weapon to combat script ?)
     }
 
     public override void Init()
@@ -17,8 +23,9 @@ public class PlayerInteract : BasePlayerService
 
         if (m_playerManager == null) return;
 
+        eyesCamera = m_playerManager.GetComponentInChildren<Camera>();
+
         m_playerManager.OnPlayerInputUpdated += HandleInput;
-        // Add event to weapon pickup (Set Weapon to combat script ?)
     }
 
     private void HandleInput(InputData inputData)
@@ -38,6 +45,29 @@ public class PlayerInteract : BasePlayerService
 
     private void Interact()
     {
+        if (eyesCamera == null) return;
+
         // Check reycast
+        Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+
+        if (Physics.Raycast(rayOrigin, eyesCamera.transform.forward, out RaycastHit hit, m_rayRange))
+        {
+            Debug.Log($"Hit: {hit.transform.name}");
+            if (hit.transform.TryGetComponent<IWeapon>(out IWeapon weapon))
+            {
+                PlayerWeaponSlot weaponSlots = m_playerManager.GetService<PlayerWeaponSlot>();
+                weaponSlots?.AddWeapon(hit.transform.GetComponent<WeaponManager>());
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (eyesCamera == null) return;
+
+        Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(rayOrigin, eyesCamera.transform.forward * m_rayRange);
     }
 }

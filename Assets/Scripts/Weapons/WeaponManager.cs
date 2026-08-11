@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour, IWeapon
 {
-    [Header("Data:")]
     private Dictionary<Type, object> m_weaponServices = new Dictionary<Type, object>();
-    [field: SerializeField] public BaseWeaponData m_currentWeaponData { get; private set; }
+
+    [Header("Data:")]
+    [SerializeField] private BaseWeaponData m_currentWeaponData;
+    [SerializeField] private IWeaponLogic m_currentWeaponLogic;
 
 
     private void Awake()
@@ -19,16 +21,21 @@ public class WeaponManager : MonoBehaviour
     {
         if (m_currentWeaponData != null)
         {
+            m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
             InitAllServices();
-            // Try to add delay to fitcollider (until model is spawn)
-            GetService<WeaponModel>().OnModelReady += HandleModelIsReady;
         }
     }
 
     public void SetData(BaseWeaponData weaponData)
     {
         m_currentWeaponData = weaponData;
+        m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
         InitAllServices();
+    }
+
+    public IWeaponLogic GetLogic()
+    {
+        return m_currentWeaponLogic;
     }
 
     private void RegisterAllServices()
@@ -78,16 +85,15 @@ public class WeaponManager : MonoBehaviour
             return null;
         }
         return (T)m_weaponServices[typeof(T)];
+    } 
+
+    public void UseWeapon()
+    {
+        Debug.Log("Shoot");
     }
 
-    private void HandleModelIsReady()
+    public void DestroyWeapon()
     {
-        if (TryGetComponent<FitCollider>(out FitCollider fitCollider))
-            fitCollider.Init();
-    }
-
-    private void OnDestroy()
-    {
-        GetService<WeaponModel>().OnModelReady -= HandleModelIsReady;
+        Destroy(gameObject);
     }
 }

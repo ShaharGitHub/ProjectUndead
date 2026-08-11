@@ -8,6 +8,8 @@ public class InputData
     public Vector2 Look;
     public bool Sprint;
     public bool Jump;
+    public int Scroll;
+    public bool Drop;
     public bool ADS;
     public bool Shoot;
     public bool Reload;
