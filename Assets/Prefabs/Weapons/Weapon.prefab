@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
   m_currentWeaponData: {fileID: 11400000, guid: 367e7e04c2e69074399589ca698cf692, type: 2}
+  m_destroyOnEquip: 0
 --- !u!54 &7092182923690310513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -91,7 +92,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 0}
   Name: Pistol
   Type: 0
-  Prefab: {fileID: 7673636444802098157, guid: e3f0e1cf7364e0148b5410b8e0bd6385, type: 3}
+  Prefab: {fileID: 1508934165754910, guid: 68317e2c4c57a6e45be7063240f91cbb, type: 3}
   Damage: 10
   WeaponSubType: 0
   MaxAmmo: 60
