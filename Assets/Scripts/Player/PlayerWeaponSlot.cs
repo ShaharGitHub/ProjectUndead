@@ -40,7 +40,7 @@ public class PlayerWeaponSlot : BasePlayerService
     {
         if (m_currentInputData == null) return;
 
-        Debug.Log(m_switchWeaponIndex);
+        //Debug.Log(m_switchWeaponIndex);
         SwitchWeaponIndex(m_switchWeaponIndex);
 
         if (m_currentInputData.Drop)
@@ -68,6 +68,7 @@ public class PlayerWeaponSlot : BasePlayerService
         if (slot == m_activeWeaponIndex && m_currentWeapons[m_activeWeaponIndex] != null)
             RemoveWeapon();
 
+        // Hide weapon if not selected
         if (m_currentWeapons[m_activeWeaponIndex] != null)
             SwitchWeaponObject(false);
 
@@ -76,6 +77,7 @@ public class PlayerWeaponSlot : BasePlayerService
         m_currentWeapons[slot] = equippedWeapon;
         m_activeWeaponIndex = slot;
 
+        // Show selected waepon
         SwitchWeaponObject(true);
     }
 
@@ -108,6 +110,8 @@ public class PlayerWeaponSlot : BasePlayerService
     {
         WeaponManager weapon = m_currentWeapons[m_activeWeaponIndex] as WeaponManager;
         weapon.gameObject.SetActive(stat);
+
+        m_playerManager.HandleWeaponSwitched(weapon);
     }
 
     public void RemoveWeapon()

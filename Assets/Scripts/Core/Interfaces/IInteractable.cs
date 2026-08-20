@@ -1,6 +1,6 @@
-using UnityEngine;
 
-public class IInteractable
+public interface IInteractable
 {
-    
+    string GetInteractPrompt();
+    void Interact(PlayerInteract playerInteract);
 }

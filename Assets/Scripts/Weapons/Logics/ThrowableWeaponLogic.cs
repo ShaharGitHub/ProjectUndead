@@ -41,7 +41,7 @@ public class ThrowableWeaponLogic : IWeaponLogic
 
     public void Use(WeaponManager weapon) // Used by "PlayerCombat"
     {
-        weapon.UseWeapon();
+        //weapon.UseWeapon();
 
         Debug.Log("Throwable weapon used");
     }

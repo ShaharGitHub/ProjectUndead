@@ -41,7 +41,7 @@ public class MeleeWeaponLogic : IWeaponLogic
 
     public void Use(WeaponManager weapon) // Used by "PlayerCombat"
     {
-        weapon.UseWeapon();
+        //weapon.UseWeapon();
 
         Debug.Log("Melee weapon swish");
     }

@@ -37,10 +37,7 @@ public class PlayerInteract : BasePlayerService
     {
         if (m_currentInputData == null) return;
 
-        if (m_currentInputData.Interact)
-        {
-            Interact();
-        }
+        Interact();
     }
 
     private void Interact()
@@ -55,13 +52,23 @@ public class PlayerInteract : BasePlayerService
         {
             //Debug.Log($"Hit: {hit.transform.name}");
 
-            // Interact Weapon
-            if (hit.transform.TryGetComponent<IWeapon>(out IWeapon weapon))
+            // Active interact by pressing "E"
+            if (m_currentInputData.Interact)
             {
-                PlayerWeaponSlot weaponSlots = m_playerManager.GetService<PlayerWeaponSlot>();
-                weaponSlots?.AddWeapon(hit.transform.GetComponent<WeaponManager>());
+                // Interact Weapon
+                if (hit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
+                {
+                    interactable.Interact(this);
+                    Debug.Log(interactable.GetInteractPrompt());
+                }
             }
         }
+    }
+
+    public void InteractWeapon(WeaponManager weaponManager)
+    {
+        PlayerWeaponSlot weaponSlots = m_playerManager.GetService<PlayerWeaponSlot>();
+        weaponSlots?.AddWeapon(weaponManager);
     }
 
     private void OnDrawGizmos()

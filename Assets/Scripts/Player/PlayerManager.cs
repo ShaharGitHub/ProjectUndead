@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     // Events
     public event Action<InputData> OnPlayerInputUpdated;
+    public event Action<WeaponManager> OnWeaponSwitched;
 
 
     private void Start()
@@ -80,6 +81,11 @@ public class PlayerManager : MonoBehaviour
     private void HandleInputUpdated(InputData data)
     {
         OnPlayerInputUpdated?.Invoke(data);
+    }
+
+    public void HandleWeaponSwitched(WeaponManager weapon)
+    {
+        OnWeaponSwitched?.Invoke(weapon);
     }
 
     private void OnCollisionEnter(Collision col)

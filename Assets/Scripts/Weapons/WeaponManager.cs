@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour, IWeapon
+public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
 {
     private Dictionary<Type, object> m_weaponServices = new Dictionary<Type, object>();
 
@@ -29,6 +29,20 @@ public class WeaponManager : MonoBehaviour, IWeapon
         }
     }
 
+    // ======================================== IInteractable ======================================== //
+
+    public string GetInteractPrompt()
+    {
+        return GlobalData.Prompts.Interact + m_currentWeaponData.Name;
+    }
+
+    public void Interact(PlayerInteract playerInteract)
+    {
+        playerInteract.InteractWeapon(this);
+    }
+
+    // ======================================== IWeapon ======================================== //
+
     public void SetData(BaseWeaponData weaponData)
     {
         m_currentWeaponData = weaponData;
@@ -47,15 +61,12 @@ public class WeaponManager : MonoBehaviour, IWeapon
         m_destroyOnEquip = true;
     }
 
-    public void UseWeapon()
-    {
-        Debug.Log("Shoot");
-    }
-
     public void DestroyWeapon()
     {
         Destroy(gameObject);
     }
+
+    // ======================================== Services ======================================== //
 
     private void RegisterAllServices()
     {

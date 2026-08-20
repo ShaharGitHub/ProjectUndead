@@ -6,7 +6,7 @@ public class PlayerCombat : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
-    public IWeapon m_currentWeapon { get; private set; }
+    private WeaponManager m_currentWeapon;
 
     //private bool m_canUseWeapon = true;
 
@@ -14,7 +14,7 @@ public class PlayerCombat : BasePlayerService
     private void OnDisable()
     {
         m_playerManager.OnPlayerInputUpdated -= HandleInput;
-        // Add event to weapon pickup
+        m_playerManager.OnWeaponSwitched -= HandleWeaponSwitched;
     }
 
     public override void Init()
@@ -24,7 +24,7 @@ public class PlayerCombat : BasePlayerService
         if (m_playerManager == null) return;
 
         m_playerManager.OnPlayerInputUpdated += HandleInput;
-        // Add event to weapon pickup
+        m_playerManager.OnWeaponSwitched += HandleWeaponSwitched;
     }
 
     private void HandleInput(InputData inputData)
@@ -32,29 +32,28 @@ public class PlayerCombat : BasePlayerService
         m_currentInputData = inputData;
     }
 
-    public void SetWeapon(IWeapon newWeapon)
+    private void HandleWeaponSwitched(WeaponManager weapon)
     {
-        // Pickup weapon
-        m_currentWeapon = newWeapon;
+        m_currentWeapon = weapon;
     }
 
     private void Update()
     {
         if (m_currentInputData == null) return;
 
-        //if (m_currentInputData.Shoot)
-        //{
-        //    UseWeapon();
-        //}
+        if (m_currentInputData.Shoot)
+        {
+            UseWeapon();
+        }
     }
 
-    //private void UseWeapon()
-    //{
-    //    if (m_currentWeapon == null) return;
+    private void UseWeapon()
+    {
+        if (m_currentWeapon == null) return;
 
-    //    //if (!m_canUseWeapon) return;
+        //if (!m_canUseWeapon) return;
 
-    //    // Use weapon
-    //    //m_currentWeapon.Use();
-    //}
+        // Use weapon
+        m_currentWeapon?.GetLogic()?.Use(m_currentWeapon);
+    }
 }
