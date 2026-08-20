@@ -5,15 +5,19 @@ public class PlayerWeaponSlot : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
+    [Header("Weapon Hand:")]
+    [SerializeField] private Transform m_hand;
+
+    [Header("Slots:")]
     [Min(1)][SerializeField] private int m_maxSlots; // Max weapon amout to hold
-    [SerializeField] private IWeapon[] m_currentWeapons;
+    [SerializeField] private WeaponManager[] m_currentWeapons;
     private int m_activeWeaponIndex = 0;
     private int m_switchWeaponIndex;
 
 
     private void Awake()
     {
-        m_currentWeapons = new IWeapon[m_maxSlots];
+        m_currentWeapons = new WeaponManager[m_maxSlots];
     }
 
     private void OnDisable()
@@ -73,7 +77,8 @@ public class PlayerWeaponSlot : BasePlayerService
             SwitchWeaponObject(false);
 
         // Get new weapon to current slot
-        WeaponManager equippedWeapon = newWeapon.GetLogic().Equip(newWeapon, transform);
+        Transform weaponParent = m_hand != null ? m_hand : transform;
+        WeaponManager equippedWeapon = newWeapon.GetLogic().Equip(newWeapon, weaponParent);
         m_currentWeapons[slot] = equippedWeapon;
         m_activeWeaponIndex = slot;
 
@@ -108,7 +113,7 @@ public class PlayerWeaponSlot : BasePlayerService
 
     private void SwitchWeaponObject(bool stat)
     {
-        WeaponManager weapon = m_currentWeapons[m_activeWeaponIndex] as WeaponManager;
+        WeaponManager weapon = m_currentWeapons[m_activeWeaponIndex];
         weapon.gameObject.SetActive(stat);
 
         m_playerManager.HandleWeaponSwitched(weapon);
@@ -118,8 +123,8 @@ public class PlayerWeaponSlot : BasePlayerService
     {
         if (m_currentWeapons.Length == 0 || m_currentWeapons[m_activeWeaponIndex] == null) return;
 
-        IWeapon currentWeapon = m_currentWeapons[m_activeWeaponIndex];
-        currentWeapon.GetLogic().Drop(currentWeapon as WeaponManager);
+        WeaponManager currentWeapon = m_currentWeapons[m_activeWeaponIndex];
+        currentWeapon.GetLogic().Drop(currentWeapon);
         m_currentWeapons[m_activeWeaponIndex] = null;
         m_activeWeaponIndex = Mathf.Max(m_activeWeaponIndex -= 1, 0);
 

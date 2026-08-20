@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class RangeWeaponLogic : IWeaponLogic
 {
-    public readonly RangeWeaponDataSO _data;
+    public readonly RangeWeaponDataSO m_data;
     public bool m_destroyOnEquip { get; private set; } = false;
 
 
     public BaseWeaponData GetData()
     {
-        return _data;
+        return m_data;
     }
 
     public RangeWeaponLogic(RangeWeaponDataSO data)
     {
         // Set the current SO (from RangeWeaponDataSO)
-        _data = data;
+        m_data = data;
     }
 
     public void SetDestroyOnEquip(bool stat)
@@ -22,7 +22,7 @@ public class RangeWeaponLogic : IWeaponLogic
         m_destroyOnEquip = stat;
     }
 
-    public WeaponManager Equip(WeaponManager equipWeapon, Transform handSlot) // Used by "PlayerInteract"
+    public WeaponManager Equip(WeaponManager equipWeapon, Transform handSlot)
     {
         // Create new weapon on player hand
         WeaponManager newWeapon = Object.Instantiate(equipWeapon, handSlot);
@@ -49,14 +49,37 @@ public class RangeWeaponLogic : IWeaponLogic
         return newWeapon;
     }
 
-    public void Use(WeaponManager weapon) // Used by "PlayerCombat"
+    public void Use(WeaponManager weapon)
     {
-        //weapon.UseWeapon();
+        // TEMP - Send ray cast from main camera
 
-        Debug.Log("Range weapon fire");
+        // CANT BE MAIN CAMERA !!
+        Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+
+        // Check for hits
+        if (Physics.Raycast(rayOrigin, Camera.main.transform.forward, out RaycastHit hit, m_data.Range))
+        {
+            Debug.Log($"Range weapon fire and hit: {hit.transform.name}");
+            Debug.DrawRay(rayOrigin, hit.point, Color.blue);
+        }
+
+        /*
+        //// TEMP - Send ray cast from weapon muzzle
+        //Transform weaponMuzzle = weapon.GetComponentInChildren<MuzzlePosition>().transform;
+        //if (weaponMuzzle == null) return;
+
+        //Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+
+        //// Check for hits
+        //if (Physics.Raycast(weaponMuzzle.position, rayOrigin, out RaycastHit hit, m_data.Range))
+        //{
+        //    Debug.Log($"Range weapon fire and hit: {hit.transform.name}");
+        //    Debug.DrawRay(weaponMuzzle.position, hit.point, Color.blue);
+        //}
+        */
     }
 
-    public void Drop(WeaponManager weapon) // Used by "__"
+    public void Drop(WeaponManager weapon)
     {
         // Disconnect weapon from player
         weapon.transform.parent = null;
