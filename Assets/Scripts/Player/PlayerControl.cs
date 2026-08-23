@@ -15,7 +15,7 @@ public class PlayerControl : BasePlayerService
 
     [Header("Jump Setting:")]
     [SerializeField] private LayerMask m_groundMask;
-    [SerializeField] private float m_groundCheckDistance = 0.2f;
+    //[SerializeField] private float m_groundCheckDistance = 0.2f;
     [SerializeField] private bool m_isGrounded;
     private bool m_applyJump;
 

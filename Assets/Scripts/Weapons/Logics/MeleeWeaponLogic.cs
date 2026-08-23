@@ -21,7 +21,7 @@ public class MeleeWeaponLogic : IWeaponLogic
         m_destroyOnEquip = stat;
     }
 
-    public WeaponManager Equip(WeaponManager equipWeapon, Transform handSlot) // Used by "PlayerInteract"
+    public WeaponManager Equip(WeaponManager equipWeapon, GameObject weaponPrefab, Transform handSlot, Camera eyesCamera) // Used by "PlayerInteract"
     {
         //// Drop previous weapon from player hand
         //if (previousWeapon != null)

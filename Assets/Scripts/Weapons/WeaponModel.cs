@@ -23,7 +23,9 @@ public class WeaponModel : BaseWeaponService
         }
 
         if (m_currentModel != null)
+        {
             Destroy(m_currentModel);
+        }
 
         m_currentModel = Instantiate(weaponData.Prefab, transform);
         m_currentModel.transform.localPosition = Vector3.zero;

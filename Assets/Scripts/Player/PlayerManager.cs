@@ -14,6 +14,9 @@ public class PlayerManager : MonoBehaviour
     // Input provider
     private IInputProvider m_inputProvider;
 
+    // Eyes Camera
+    public Camera m_eyesCamera { get; private set; }
+
     // Events
     public event Action<InputData> OnPlayerInputUpdated;
     public event Action<WeaponManager> OnWeaponSwitched;
@@ -23,6 +26,9 @@ public class PlayerManager : MonoBehaviour
     {
         RegisterAllServices();
         InitAllServices();
+
+        // Get player eyes camara
+        m_eyesCamera = GetService<PlayerCamera>().GetComponentInChildren<Camera>();
 
         m_inputProvider = GetService<IInputProvider>();
         if (m_inputProvider != null)

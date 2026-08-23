@@ -824,8 +824,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1770249788088350272, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_Name
-      value: Weapon
+      value: Weapon 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_destroyOnEquip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_currentWeaponData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ce5f0ae971b2d046aebbe9b9a8be59a, type: 2}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.830761
@@ -837,6 +845,71 @@ PrefabInstance:
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.z
       value: 7.181141
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+--- !u!1001 &769850295
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1770249788088350272, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_Name
+      value: Weapon 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_destroyOnEquip
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_currentWeaponData
+      value: 
+      objectReference: {fileID: 11400000, guid: f26dea35fef24454cbe39e8e9df46146, type: 2}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.830761
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.1811423
       objectReference: {fileID: 0}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -971,7 +1044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &881017074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,8 +1057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6108d5ca5e57490449ad6816abbfbf39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSystemTestHarness
-  m_weaponManager: {fileID: 0}
-  m_alternateData: {fileID: 0}
+  m_weaponManager: {fileID: 1229231988}
+  m_alternateData: {fileID: 11400000, guid: a457ff5f05f92eb4eb3a286f9970759d, type: 2}
   m_targetManager: {fileID: 0}
   m_handSlot: {fileID: 0}
 --- !u!4 &881017075
@@ -1013,7 +1086,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1770249788088350272, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_Name
-      value: Weapon (2)
+      value: Weapon 1
       objectReference: {fileID: 0}
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_destroyOnEquip
@@ -1022,7 +1095,7 @@ PrefabInstance:
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_currentWeaponData
       value: 
-      objectReference: {fileID: 11400000, guid: 3a68cd4085e622c4aa24ff2222b2507b, type: 2}
+      objectReference: {fileID: 11400000, guid: f3d63fe5a9ef61a4699b4bd3493de69b, type: 2}
     - target: {fileID: 9109852321805083359, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.16923904
@@ -1068,6 +1141,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+--- !u!114 &1229231988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
+  m_PrefabInstance: {fileID: 736836846}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b022fad1a112540aec3a974bc041ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
 --- !u!1 &1372298662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,11 +1606,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1770249788088350272, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_Name
-      value: Weapon (1)
+      value: Weapon 2
       objectReference: {fileID: 0}
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_destroyOnEquip
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4356098925172333660, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
       propertyPath: m_currentWeaponData
@@ -1648,7 +1732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5996862274428431421, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: -4.18
       objectReference: {fileID: 0}
     - target: {fileID: 5996862274428431421, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1703,8 +1787,9 @@ SceneRoots:
   - {fileID: 848966195}
   - {fileID: 7087138548142879726}
   - {fileID: 881017075}
-  - {fileID: 736836846}
-  - {fileID: 1874990415}
   - {fileID: 915498482}
+  - {fileID: 1874990415}
+  - {fileID: 736836846}
+  - {fileID: 769850295}
   - {fileID: 666350570}
   - {fileID: 1659833650}

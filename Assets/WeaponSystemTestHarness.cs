@@ -13,29 +13,29 @@ public class WeaponSystemTestHarness : MonoBehaviour
         m_weaponManager.SetData(m_alternateData);
     }
 
-    [ContextMenu("Test - Equip")]
-    private void TestInteract()
-    {
-        var weaponLogic = m_weaponManager.GetLogic();
-        if (weaponLogic == null)
-        {
-            Debug.LogError("WeaponPickup service not found!");
-            return;
-        }
-        weaponLogic.Equip(m_weaponManager, m_handSlot);
-    }
+    //[ContextMenu("Test - Equip")]
+    //private void TestInteract()
+    //{
+    //    var weaponLogic = m_weaponManager.GetLogic();
+    //    if (weaponLogic == null)
+    //    {
+    //        Debug.LogError("WeaponPickup service not found!");
+    //        return;
+    //    }
+    //    //weaponLogic.Equip(m_weaponManager, m_handSlot);
+    //}
 
-    [ContextMenu("Test - Drop")]
-    private void TestDrop()
-    {
-        var weaponLogic = m_weaponManager.GetLogic();
-        if (weaponLogic == null)
-        {
-            Debug.LogError("WeaponPickup service not found!");
-            return;
-        }
-        weaponLogic.Drop(m_weaponManager);
-    }
+    //[ContextMenu("Test - Drop")]
+    //private void TestDrop()
+    //{
+    //    var weaponLogic = m_weaponManager.GetLogic();
+    //    if (weaponLogic == null)
+    //    {
+    //        Debug.LogError("WeaponPickup service not found!");
+    //        return;
+    //    }
+    //    weaponLogic.Drop(m_weaponManager);
+    //}
 
     //[ContextMenu("Test - Fire Weapon")]
     //private void TestFire()

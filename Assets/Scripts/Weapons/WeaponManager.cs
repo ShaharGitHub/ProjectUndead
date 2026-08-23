@@ -13,6 +13,8 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
 
     [SerializeField] private bool m_destroyOnEquip = false;
 
+    public Camera m_eyesCamera { get; private set; }
+
 
     private void Awake()
     {
@@ -27,6 +29,11 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
             m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
             InitAllServices();
         }
+    }
+
+    public void SetEyes(Camera eyesCamera)
+    {
+        m_eyesCamera = eyesCamera;
     }
 
     // ======================================== IInteractable ======================================== //

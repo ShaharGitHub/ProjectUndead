@@ -5,6 +5,9 @@ public class PlayerWeaponSlot : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
+    [Header("Weapon Prefab:")]
+    [SerializeField] private GameObject m_weaponPrefab;
+
     [Header("Weapon Hand:")]
     [SerializeField] private Transform m_hand;
 
@@ -78,7 +81,7 @@ public class PlayerWeaponSlot : BasePlayerService
 
         // Get new weapon to current slot
         Transform weaponParent = m_hand != null ? m_hand : transform;
-        WeaponManager equippedWeapon = newWeapon.GetLogic().Equip(newWeapon, weaponParent);
+        WeaponManager equippedWeapon = newWeapon.GetLogic().Equip(newWeapon, m_weaponPrefab, weaponParent, m_playerManager.m_eyesCamera);
         m_currentWeapons[slot] = equippedWeapon;
         m_activeWeaponIndex = slot;
 
