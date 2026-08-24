@@ -112,7 +112,7 @@ public class RangeWeaponLogic : IWeaponLogic
         if (didHit)
         {
             weaponVfx?.SpawnEffect(hit.transform.gameObject, hit.point);
-            Debug.Log($"Weapon hit {hit.transform.name}");
+            Debug.Log($"Weapon hit {hit.transform.name} - {LayerMask.LayerToName(hit.transform.gameObject.layer)}");
         }
     }
 

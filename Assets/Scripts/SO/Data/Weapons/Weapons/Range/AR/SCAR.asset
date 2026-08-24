@@ -25,5 +25,6 @@ MonoBehaviour:
   Range: 200
   ReloadTime: 2
   Spread: 2
+  AdsPosition: {x: 0, y: -0.185, z: 0.15}
   UseAnimation: {fileID: 0}
   ReloadAnimation: {fileID: 0}

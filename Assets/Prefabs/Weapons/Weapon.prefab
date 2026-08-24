@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7092182923690310513}
   - component: {fileID: 6163935356746586594}
   - component: {fileID: 7217280259485675305}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6598572860006825122}
   - component: {fileID: 3260000193717755740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3912710407439496657}
   - component: {fileID: 6105815618727916187}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
