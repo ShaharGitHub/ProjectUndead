@@ -80,7 +80,7 @@ public class RangeWeaponLogic : IWeaponLogic
         if (weaponManager.m_eyesCamera == null) return;
         Transform cam = weaponManager.m_eyesCamera.transform;
 
-        // Weapon layer
+        // ~ = Get all masks BUT not weapon
         int layerMask = ~LayerMask.GetMask("Weapon");
 
         // Check aim point from eyes camera forward
