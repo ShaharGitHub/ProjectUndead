@@ -1,3 +1,5 @@
+public enum EffectTypes { MuzzleFlash, BulletImpact }
+
 public static class GlobalData
 {
     public static class Prompts

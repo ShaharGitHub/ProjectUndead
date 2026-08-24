@@ -12,9 +12,9 @@ public class RangeWeaponDataSO : BaseWeaponData
     public int ClipSize;
 
     [Header("Stats:")]
-    public float FireRate;
+    [Range(0.5f, 20f)] public float FireRate;
     public float Accuracy;
-    public float Range;
+    [Range(10f, 1000f)] public float Range;
     public float ReloadTime;
     public float Spread;                   // <- For shotguns
 

@@ -20,9 +20,9 @@ MonoBehaviour:
   WeaponSubType: 6
   MaxAmmo: 150
   ClipSize: 30
-  FireRate: 2
+  FireRate: 0.5
   Accuracy: 2
-  Range: 2
+  Range: 100
   ReloadTime: 2
   Spread: 2
   UseAnimation: {fileID: 0}

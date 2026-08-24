@@ -22,7 +22,7 @@ MonoBehaviour:
   ClipSize: 30
   FireRate: 2
   Accuracy: 2
-  Range: 2
+  Range: 15
   ReloadTime: 2
   Spread: 2
   UseAnimation: {fileID: 0}

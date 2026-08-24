@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3a21d6b829ca84483014ccf0e15e9d, type: 3}
+  m_Name: EffectsFactorySO
+  m_EditorClassIdentifier: Assembly-CSharp::EffectsFactorySO
+  Data:
+  - Type: 0
+    Effect: {fileID: 157586, guid: c8e3843634341ba448f0f14f9cc971fb, type: 3}
+    Duration: 0
+  - Type: 1
+    Effect: {fileID: 166404, guid: 07981d74c1df0de418cf86845f279cf0, type: 3}
+    Duration: 0
