@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     // Events
     public event Action<InputData> OnPlayerInputUpdated;
     public event Action<WeaponManager> OnWeaponSwitched;
+    public event Action<bool, Vector3> OnWeaponAiming;
 
 
     private void Start()
@@ -92,6 +93,11 @@ public class PlayerManager : MonoBehaviour
     public void HandleWeaponSwitched(WeaponManager weapon)
     {
         OnWeaponSwitched?.Invoke(weapon);
+    }
+
+    public void HandleWeaponAiming(bool isAiming, Vector3 weaponAdsPos)
+    {
+        OnWeaponAiming?.Invoke(isAiming, weaponAdsPos);
     }
 
     private void OnCollisionEnter(Collision col)

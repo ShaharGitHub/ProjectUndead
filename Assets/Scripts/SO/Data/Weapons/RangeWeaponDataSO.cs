@@ -18,6 +18,9 @@ public class RangeWeaponDataSO : BaseWeaponData
     public float ReloadTime;
     public float Spread;                   // <- For shotguns
 
+    [Header("Camera:")]
+    public Vector3 AdsPosition;
+
     [Header("Animations:")]
     public AnimationClip UseAnimation;     // <- Shoot animation
     public AnimationClip ReloadAnimation;  // <- Reload animation

@@ -41,9 +41,22 @@ public class PlayerCombat : BasePlayerService
     {
         if (m_currentInputData == null) return;
 
+        AimWeapon(m_currentInputData.ADS);
+
         if (m_currentInputData.Shoot)
         {
             UseWeapon();
+        }
+    }
+
+    private void AimWeapon(bool isAiming)
+    {
+        if (m_currentWeapon == null) return;
+
+        IWeaponLogic logic = m_currentWeapon.GetLogic();
+        if (logic != null && logic is RangeWeaponLogic rangeLogic)
+        {
+            m_playerManager.HandleWeaponAiming(isAiming, rangeLogic.m_data.AdsPosition);
         }
     }
 

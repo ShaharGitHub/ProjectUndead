@@ -144,7 +144,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
   m_playerManager: {fileID: 0}
-  m_eyesTransform: {fileID: 1472894633420827025}
+  m_fpsEyesTransform: {fileID: 1472894633420827025}
+  m_handAdsPosition: {x: 0, y: -0.217, z: 0.15}
+  m_cameraAdsFov: 40
+  m_eyesCamera: {fileID: 2770525972694068961}
+  m_weaponHand: {fileID: 4979675087106980882}
 --- !u!1 &3205292732450338469
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +311,7 @@ MonoBehaviour:
   m_weaponPrefab: {fileID: 1770249788088350272, guid: a4ca131d98609ab49a9a4080e7f404c5, type: 3}
   m_hand: {fileID: 4979675087106980882}
   m_maxSlots: 2
-  m_currentWeapons: []
+  m_weaponSlots: []
 --- !u!1 &5238018948463250371
 GameObject:
   m_ObjectHideFlags: 0

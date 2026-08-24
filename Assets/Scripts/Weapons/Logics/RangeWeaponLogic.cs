@@ -80,9 +80,12 @@ public class RangeWeaponLogic : IWeaponLogic
         if (weaponManager.m_eyesCamera == null) return;
         Transform cam = weaponManager.m_eyesCamera.transform;
 
+        // Weapon layer
+        int layerMask = ~LayerMask.GetMask("Weapon");
+
         // Check aim point from eyes camera forward
         Vector3 aimPoint;
-        if (Physics.Raycast(cam.position, cam.forward, out RaycastHit camHit, m_data.Range))
+        if (Physics.Raycast(cam.position, cam.forward, out RaycastHit camHit, m_data.Range, layerMask))
         {
             // Eyes hit an object in front of them
             aimPoint = camHit.point;
@@ -97,7 +100,7 @@ public class RangeWeaponLogic : IWeaponLogic
         Vector3 rayDirection = (aimPoint - weaponMuzzle.transform.position).normalized;
 
         // Shoot raycast
-        bool didHit = Physics.Raycast(weaponMuzzle.transform.position, rayDirection, out RaycastHit hit, m_data.Range);
+        bool didHit = Physics.Raycast(weaponMuzzle.transform.position, rayDirection, out RaycastHit hit, m_data.Range, layerMask);
 
         // ========================== Effects & Destroy ========================== //
 

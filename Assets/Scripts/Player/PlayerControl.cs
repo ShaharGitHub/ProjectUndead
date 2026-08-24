@@ -95,7 +95,7 @@ public class PlayerControl : BasePlayerService
         m_playerManager.transform.Rotate(0, yRotation, 0);
 
         // Find eyes transform
-        Transform eyes = m_playerManager.GetService<PlayerCamera>().GetEyesPosition();
+        Transform eyes = m_playerManager.GetService<PlayerCamera>().GetFpsEyes();
         if (eyes == null) return;
 
         // Rotate eyes (X Axis)
