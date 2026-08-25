@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5fc45a83071f49bd448a7379d83d6, type: 3}
   m_Name: FAMAS
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: f4fa943b182f66346b3e4cd9ed3f39bf, type: 3}
   Name: FAMAS
   Type: 0
   Prefab: {fileID: 1396424805824408, guid: f68f19ab55ee89d4bb00eaa083ab7849, type: 3}

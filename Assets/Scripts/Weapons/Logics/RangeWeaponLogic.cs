@@ -1,10 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
-public class RangeWeaponLogic : IWeaponLogic
+public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 {
     public readonly RangeWeaponDataSO m_data;
     public bool m_destroyOnEquip { get; private set; } = false;
     private float m_fireRateTimer = 0;
+
+    // Ammo
+    public int CurrentClipAmmo { get; private set; }
+    public int CurrentReserveAmmo { get; private set; }
+    public bool IsReloading { get; private set; }
+    private float m_reloadStartTime;
 
 
     public BaseWeaponData GetData()
@@ -16,8 +23,13 @@ public class RangeWeaponLogic : IWeaponLogic
     {
         // Set the current SO (from RangeWeaponDataSO)
         m_data = data;
+
+        // Ammo
+        CurrentReserveAmmo = data.MaxAmmo - data.ClipSize;
+        CurrentClipAmmo = data.ClipSize;
     }
 
+    #region IWeaponLogic
     public void SetDestroyOnEquip(bool stat)
     {
         m_destroyOnEquip = stat;
@@ -69,6 +81,15 @@ public class RangeWeaponLogic : IWeaponLogic
 
         // Update the timestamp for the next allowed shot
         m_fireRateTimer = Time.time + fireInterval;
+
+        // ========================== Ammo ========================== //
+
+        if (!TryConsumeAmmo())
+        {
+            TryReload(weaponManager);
+            Debug.Log("Clip is empty!");
+            return;
+        }
 
         // ========================== Fire ========================== //
 
@@ -130,4 +151,51 @@ public class RangeWeaponLogic : IWeaponLogic
 
         Debug.Log("Range Weapon droped");
     }
+    #endregion
+
+    #region IAmmoWeapon
+    public bool TryConsumeAmmo()
+    {
+        if (IsReloading)
+            return false;
+
+        // No ammo on current clip
+        if (CurrentClipAmmo <= 0)
+            return false;
+
+        // Decrease current clip ammo
+        CurrentClipAmmo--;
+        return true;
+    }
+
+    public bool TryReload(WeaponManager weaponManager)
+    {
+        // Can't request new reload when already reload
+        if (IsReloading)
+            return false;
+
+        // No reserve ammo OR clip is full
+        if (CurrentClipAmmo >= m_data.ClipSize || CurrentReserveAmmo <= 0)
+            return false;
+
+        // Start reload routine
+        weaponManager.StartCoroutine(ReloadRoutine());
+        return true;
+    }
+
+    private IEnumerator ReloadRoutine()
+    {
+        IsReloading = true;
+        Debug.Log($"Reload started, will take {m_data.ReloadTime}s");
+
+        yield return new WaitForSeconds(m_data.ReloadTime);
+
+        int ammoToLoad = Mathf.Min(m_data.ClipSize - CurrentClipAmmo, CurrentReserveAmmo);
+        CurrentClipAmmo += ammoToLoad;
+        CurrentReserveAmmo -= ammoToLoad;
+        IsReloading = false;
+
+        Debug.Log("Reload finished");
+    }
+    #endregion
 }

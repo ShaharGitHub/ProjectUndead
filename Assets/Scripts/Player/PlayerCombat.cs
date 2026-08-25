@@ -8,8 +8,6 @@ public class PlayerCombat : BasePlayerService
 
     private WeaponManager m_currentWeapon;
 
-    //private bool m_canUseWeapon = true;
-
 
     private void OnDisable()
     {
@@ -47,6 +45,8 @@ public class PlayerCombat : BasePlayerService
         {
             UseWeapon();
         }
+
+        ReloadWeapon(m_currentInputData.Reload);
     }
 
     private void AimWeapon(bool isAiming)
@@ -64,9 +64,18 @@ public class PlayerCombat : BasePlayerService
     {
         if (m_currentWeapon == null) return;
 
-        //if (!m_canUseWeapon) return;
-
         // Use weapon
         m_currentWeapon?.GetLogic()?.Use(m_currentWeapon);
+    }
+
+    private void ReloadWeapon(bool isReloading)
+    {
+        if (m_currentWeapon == null || !isReloading) return;
+
+        IWeaponLogic logic = m_currentWeapon.GetLogic();
+        if (logic != null && logic is IAmmoWeapon ammoWeapon)
+        {
+            ammoWeapon.TryReload(m_currentWeapon);
+        }
     }
 }

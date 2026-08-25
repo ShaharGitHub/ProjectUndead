@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5fc45a83071f49bd448a7379d83d6, type: 3}
   m_Name: SCAR
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 563c034629143f6409545ac667bb3b33, type: 3}
   Name: SCAR
   Type: 0
   Prefab: {fileID: 1296539039355890, guid: be20da268d490c44c8460e91a7cd3a44, type: 3}

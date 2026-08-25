@@ -88,6 +88,40 @@ public class PlayerWeaponSlot : BasePlayerService
         SwitchWeaponObject(true);
     }
 
+    public void RemoveWeapon()
+    {
+        if (m_weaponSlots.Length == 0 || m_weaponSlots[m_activeSlotIndex] == null) return;
+
+        // Get current weapon
+        WeaponManager currentWeapon = m_weaponSlots[m_activeSlotIndex];
+
+        // Active drop logic
+        currentWeapon.GetLogic().Drop(currentWeapon);
+
+        // Empty the slot
+        m_weaponSlots[m_activeSlotIndex] = null;
+
+        // Search for next active weapon
+        int newIndex = -1;
+        for (int i = 0; i < m_weaponSlots.Length; i++)
+        {
+            if (m_weaponSlots[i] != null)
+            {
+                newIndex = i;
+                break;
+            }
+        }
+
+        // Change active slot index
+        m_activeSlotIndex = newIndex != -1 ? newIndex : 0;
+
+        // Show current weapon (if having weapon)
+        if (m_weaponSlots[m_activeSlotIndex] != null)
+            SwitchWeaponObject(true);
+        else
+            UpdateWeaponSwith(null);
+    }
+
     private void SwitchWeaponIndex(int side)
     {
         if (side != 0 && m_weaponSlots.Length > 0)
@@ -131,38 +165,11 @@ public class PlayerWeaponSlot : BasePlayerService
         WeaponManager weapon = m_weaponSlots[m_activeSlotIndex];
         weapon.gameObject.SetActive(stat);
 
-        m_playerManager.HandleWeaponSwitched(weapon);
+        UpdateWeaponSwith(weapon);
     }
 
-    public void RemoveWeapon()
+    private void UpdateWeaponSwith(WeaponManager weapon)
     {
-        if (m_weaponSlots.Length == 0 || m_weaponSlots[m_activeSlotIndex] == null) return;
-
-        // Get current weapon
-        WeaponManager currentWeapon = m_weaponSlots[m_activeSlotIndex];
-
-        // Active drop logic
-        currentWeapon.GetLogic().Drop(currentWeapon);
-
-        // Empty the slot
-        m_weaponSlots[m_activeSlotIndex] = null;
-
-        // Search for next active weapon
-        int newIndex = -1;
-        for (int i = 0; i < m_weaponSlots.Length; i++)
-        {
-            if (m_weaponSlots[i] != null)
-            {
-                newIndex = i;
-                break;
-            }
-        }
-
-        // Change active slot index
-        m_activeSlotIndex = newIndex != -1 ? newIndex : 0;
-
-        // Show current weapon (if having weapon)
-        if (m_weaponSlots[m_activeSlotIndex] != null)
-            SwitchWeaponObject(true);
+        m_playerManager.HandleWeaponSwitched(weapon);
     }
 }

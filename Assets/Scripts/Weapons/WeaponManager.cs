@@ -27,6 +27,7 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
         {
             m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
             m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
+
             InitAllServices();
         }
     }

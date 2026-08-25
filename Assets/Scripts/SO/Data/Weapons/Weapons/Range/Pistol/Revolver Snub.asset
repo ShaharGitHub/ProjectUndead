@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5fc45a83071f49bd448a7379d83d6, type: 3}
   m_Name: Revolver Snub
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: f6978e620b86fa44f954001371c19b9c, type: 3}
   Name: Revolver Snub
   Type: 0
   Prefab: {fileID: 1404540613340210, guid: ee2cb268404949a4fbaadcf58acb29c5, type: 3}

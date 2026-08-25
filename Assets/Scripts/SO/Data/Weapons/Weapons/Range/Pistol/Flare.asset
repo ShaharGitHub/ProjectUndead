@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5fc45a83071f49bd448a7379d83d6, type: 3}
   m_Name: Flare
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: ca58e9fe438de1e459758e55a1b1ac17, type: 3}
   Name: Flare
   Type: 0
   Prefab: {fileID: 1872114561304768, guid: 246e2fda4167a7f4a9f9417c6bc5193f, type: 3}

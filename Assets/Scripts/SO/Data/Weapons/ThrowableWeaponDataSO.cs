@@ -4,7 +4,7 @@ using UnityEngine;
 public class ThrowableWeaponDataSO : BaseWeaponData
 {
     [Header("Ammo:")]
-    public int MaxAmount;
+    public int MaxAmmo;
 
     [Header("Stats:")]
     public float Radius;

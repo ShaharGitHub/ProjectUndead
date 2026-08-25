@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5fc45a83071f49bd448a7379d83d6, type: 3}
   m_Name: G36C
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 0dac452fe04e4e248896340336e396aa, type: 3}
   Name: G36C
   Type: 0
   Prefab: {fileID: 1042019584973368, guid: 04e8ca980b4beed48979d827d8250fb4, type: 3}
