@@ -26,6 +26,7 @@ public class PlayerWeaponSlot : BasePlayerService
     private void OnDisable()
     {
         m_playerManager.OnPlayerInputUpdated -= HandleInput;
+        m_playerManager.OnWeaponSwitched -= HandleWeaponSwitched;
     }
 
     public override void Init()
@@ -35,12 +36,19 @@ public class PlayerWeaponSlot : BasePlayerService
         if (m_playerManager == null) return;
 
         m_playerManager.OnPlayerInputUpdated += HandleInput;
+        m_playerManager.OnWeaponSwitched += HandleWeaponSwitched;
     }
 
     private void HandleInput(InputData inputData)
     {
         m_currentInputData = inputData;
         m_scrollInput = m_currentInputData.Scroll;
+    }
+
+    private void HandleWeaponSwitched(WeaponManager weapon)
+    {
+        if (weapon == null)
+            RemoveWeapon();
     }
 
     private void Update()
@@ -119,7 +127,7 @@ public class PlayerWeaponSlot : BasePlayerService
         if (m_weaponSlots[m_activeSlotIndex] != null)
             SwitchWeaponObject(true);
         else
-            UpdateWeaponSwith(null);
+            UpdateWeaponSwitch(null);
     }
 
     private void SwitchWeaponIndex(int side)
@@ -165,10 +173,10 @@ public class PlayerWeaponSlot : BasePlayerService
         WeaponManager weapon = m_weaponSlots[m_activeSlotIndex];
         weapon.gameObject.SetActive(stat);
 
-        UpdateWeaponSwith(weapon);
+        UpdateWeaponSwitch(weapon);
     }
 
-    private void UpdateWeaponSwith(WeaponManager weapon)
+    private void UpdateWeaponSwitch(WeaponManager weapon)
     {
         m_playerManager.HandleWeaponSwitched(weapon);
     }

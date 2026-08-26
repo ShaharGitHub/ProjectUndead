@@ -13,6 +13,7 @@ public class InputData
     public bool ADS;
     public bool Shoot;
     public bool Reload;
+    public bool FireRate;
     public bool Melee;
     public bool Grenade;
     public bool Interact;

@@ -11,6 +11,7 @@ public class PlayerWeaponUI : BasePlayerService
     [SerializeField] private Image m_weaponIcon;
     [SerializeField] private Image m_reloadIcon;
     [SerializeField] private TextMeshProUGUI m_ammoText;
+    [SerializeField] private Transform m_fireModeParent;
 
     private WeaponManager m_currentWeapon;
 
@@ -41,40 +42,56 @@ public class PlayerWeaponUI : BasePlayerService
 
     private void UpdateWeaponUI()
     {
-        IAmmoWeapon currentAmmoWeapon = null;
-
-        if (m_ammoText != null && m_weaponIcon != null)
+        if (m_currentWeapon == null)
         {
-            // No weapon in hand
-            if (m_currentWeapon == null)
-            {
-                m_weaponIcon.sprite = null;
-                m_ammoText.text = "";
-                return;
-            }
-
-            // Try get current weapon logic
-            IWeaponLogic logic = m_currentWeapon.GetLogic();
-            if (logic == null)
-                return;
-
-            // Get ammo text
-            string ammoText = ""; // Else = Melee weapon
-            if (logic is IAmmoWeapon ammoWeapon)
-            {
-                // Weapon with ammo
-                currentAmmoWeapon = ammoWeapon;
-                ammoText = $"{ammoWeapon.CurrentClipAmmo}/{ammoWeapon.CurrentReserveAmmo}";
-            }
-            m_ammoText.text = ammoText;
-
-            // Get weapon icon
-            Sprite currentIcon = logic.GetData().Icon;
-            m_weaponIcon.sprite = currentIcon;
+            ResetWeaponUI();
+            return;
         }
 
+        // Try get current weapon logic
+        IWeaponLogic logic = m_currentWeapon.GetLogic();
+        if (logic == null)
+            return;
+
+        IAmmoWeapon currentAmmoWeapon = null;  // Melee Weapon
+        if (logic is IAmmoWeapon ammoWeapon)
+            currentAmmoWeapon = ammoWeapon;    // Weapon with ammo
+
+        SetAmmoText(currentAmmoWeapon);
+        SetAmmoIcon(logic);
+        SetReloadIcon(currentAmmoWeapon);
+        SetFireMode(logic);
+    }
+
+    private void SetAmmoText(IAmmoWeapon currentAmmoWeapon)
+    {
+        if (m_ammoText == null)
+            return;
+
+        // Get ammo text
+        string ammoText = ""; // Else = Melee weapon
+        if (currentAmmoWeapon != null)
+            ammoText = $"{currentAmmoWeapon.CurrentClipAmmo}/{currentAmmoWeapon.CurrentReserveAmmo}";
+
+        m_ammoText.text = ammoText;
+    }
+
+    private void SetAmmoIcon(IWeaponLogic logic)
+    {
+        if (m_weaponIcon == null)
+            return;
+
+        // Get weapon icon
+        m_weaponIcon.sprite = logic.GetData().Icon;
+    }
+
+    private void SetReloadIcon(IAmmoWeapon currentAmmoWeapon)
+    {
+        if (m_reloadIcon == null)
+            return;
+
         // Reload icon
-        if (currentAmmoWeapon != null && m_reloadIcon != null)
+        if (currentAmmoWeapon != null)
         {
             // Show/Hide reload icon
             m_reloadIcon.gameObject.SetActive(currentAmmoWeapon.IsReloading);
@@ -90,5 +107,75 @@ public class PlayerWeaponUI : BasePlayerService
                 m_reloadIcon.transform.rotation = Quaternion.identity;
             }
         }
+        else
+        {
+            m_reloadIcon.gameObject.SetActive(false);
+        }
+    }
+
+    private void SetFireMode(IWeaponLogic logic)
+    {
+        if (m_fireModeParent == null)
+            return;
+
+        if (logic is RangeWeaponLogic rangeWeapon)
+        {
+            m_fireModeParent.gameObject.SetActive(true);
+
+            int activeIndex = 0;
+            switch (rangeWeapon.m_data.FireMode)
+            {
+                case FireModes.Semi:
+                    activeIndex = 0;
+                    break;
+                case FireModes.Burst:
+                    activeIndex = 1;
+                    break;
+                case FireModes.Auto:
+                    activeIndex = 2;
+                    break;
+            }
+
+            ModifyFireModeChilds(activeIndex);
+        }
+        else
+        {
+            m_fireModeParent.gameObject.SetActive(false);
+        }
+    }
+
+    private void ModifyFireModeChilds(int activeIndex)
+    {
+        if (m_fireModeParent == null)
+            return;
+
+        for (int i = 0; i < m_fireModeParent.transform.childCount; i++)
+        {
+            Image img = m_fireModeParent.transform.GetChild(i).GetComponent<Image>();
+            if (img == null)
+                continue;
+
+            string hexColor = (i <= activeIndex) ? "#FFFFFF" : "#7E7E7E";
+
+            if (ColorUtility.TryParseHtmlString(hexColor, out Color newColor))
+            {
+                img.color = newColor;
+            }
+        }
+    }
+
+    private void ResetWeaponUI()
+    {
+        if (m_ammoText != null)
+            m_ammoText.text = "";
+
+        if (m_weaponIcon != null)
+            m_weaponIcon.sprite = null;
+
+        if (m_reloadIcon != null)
+            m_reloadIcon.gameObject.SetActive(false);
+
+        if (m_fireModeParent != null)
+            m_fireModeParent.gameObject.SetActive(false);
     }
 }

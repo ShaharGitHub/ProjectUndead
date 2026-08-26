@@ -195,6 +195,11 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
         // weaponManager.VFX
     }
 
+    public void ChangeFireMode()
+    {
+        m_data.FireMode = (FireModes)(((int)m_data.FireMode + 1) % System.Enum.GetValues(typeof(FireModes)).Length);
+    }
+
     public void OnReleaseTrigger()
     {
         m_wasTriggerReleased = true;

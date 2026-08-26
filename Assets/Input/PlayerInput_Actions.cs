@@ -174,6 +174,15 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""FireRate"",
+                    ""type"": ""Button"",
+                    ""id"": ""74c079db-168a-46c5-bb14-a80eb0cbbf0f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Melee"",
                     ""type"": ""Button"",
                     ""id"": ""78923002-c5e0-4fd4-b6a9-38fa15db8775"",
@@ -325,6 +334,17 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""e679beb2-57a0-4d59-a4bc-e0e55999562c"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireRate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""93fd8b9d-e898-4de0-9113-38cc174204b8"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
@@ -455,6 +475,7 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         m_Player_ADS = m_Player.FindAction("ADS", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_FireRate = m_Player.FindAction("FireRate", throwIfNotFound: true);
         m_Player_Melee = m_Player.FindAction("Melee", throwIfNotFound: true);
         m_Player_Grenade = m_Player.FindAction("Grenade", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
@@ -547,6 +568,7 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ADS;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_FireRate;
     private readonly InputAction m_Player_Melee;
     private readonly InputAction m_Player_Grenade;
     private readonly InputAction m_Player_Interact;
@@ -597,6 +619,10 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Reload".
         /// </summary>
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/FireRate".
+        /// </summary>
+        public InputAction @FireRate => m_Wrapper.m_Player_FireRate;
         /// <summary>
         /// Provides access to the underlying input action "Player/Melee".
         /// </summary>
@@ -662,6 +688,9 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @FireRate.started += instance.OnFireRate;
+            @FireRate.performed += instance.OnFireRate;
+            @FireRate.canceled += instance.OnFireRate;
             @Melee.started += instance.OnMelee;
             @Melee.performed += instance.OnMelee;
             @Melee.canceled += instance.OnMelee;
@@ -709,6 +738,9 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @FireRate.started -= instance.OnFireRate;
+            @FireRate.performed -= instance.OnFireRate;
+            @FireRate.canceled -= instance.OnFireRate;
             @Melee.started -= instance.OnMelee;
             @Melee.performed -= instance.OnMelee;
             @Melee.canceled -= instance.OnMelee;
@@ -886,6 +918,13 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReload(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "FireRate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFireRate(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Melee" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

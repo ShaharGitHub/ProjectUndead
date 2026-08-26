@@ -52,6 +52,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
         control.Player.Shoot.canceled += ctx => { inputData.Shoot = false; TriggerInputEvent(); };
 
         control.Player.Reload.performed += ctx => { inputData.Reload = true; TriggerInputEvent(); };
+        control.Player.FireRate.performed += ctx => { inputData.FireRate = true; TriggerInputEvent(); };
         control.Player.Melee.performed += ctx => { inputData.Melee = true; TriggerInputEvent(); };
         control.Player.Grenade.performed += ctx => { inputData.Grenade = true; TriggerInputEvent(); };
         control.Player.Interact.performed += ctx => { inputData.Interact = true; TriggerInputEvent(); };
@@ -73,6 +74,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
         control.Player.Shoot.canceled -= ctx => { inputData.Shoot = false; TriggerInputEvent(); };
 
         control.Player.Reload.performed -= ctx => { inputData.Reload = true; TriggerInputEvent(); };
+        control.Player.FireRate.performed -= ctx => { inputData.FireRate = true; TriggerInputEvent(); };
         control.Player.Melee.performed -= ctx => { inputData.Melee = true; TriggerInputEvent(); };
         control.Player.Grenade.performed -= ctx => { inputData.Grenade = true; TriggerInputEvent(); };
         control.Player.Interact.performed -= ctx => { inputData.Interact = true; TriggerInputEvent(); };
@@ -127,6 +129,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
         inputData.Jump = false;
         inputData.Drop = false;
         inputData.Reload = false;
+        inputData.FireRate = false;
         inputData.Melee = false;
         inputData.Grenade = false;
         inputData.Interact = false;

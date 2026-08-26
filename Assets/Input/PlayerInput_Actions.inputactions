@@ -88,6 +88,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "FireRate",
+                    "type": "Button",
+                    "id": "74c079db-168a-46c5-bb14-a80eb0cbbf0f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Melee",
                     "type": "Button",
                     "id": "78923002-c5e0-4fd4-b6a9-38fa15db8775",
@@ -234,6 +243,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e679beb2-57a0-4d59-a4bc-e0e55999562c",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireRate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

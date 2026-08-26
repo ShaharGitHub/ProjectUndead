@@ -115,7 +115,7 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
             weaponRb.isKinematic = false;
             weaponRb.mass = 1.5f;
             weaponRb.AddForce(m_currentWeaponManager.transform.forward * 700 + m_currentWeaponManager.transform.up * 300);
-            weaponRb.AddTorque(Random.insideUnitSphere * 1f);
+            //weaponRb.AddTorque(Random.insideUnitSphere * 1f);
         }
 
         Debug.Log("<color=cyan>Grenade thrown into the world!</color>");

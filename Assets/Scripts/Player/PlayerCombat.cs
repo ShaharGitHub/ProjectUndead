@@ -7,6 +7,7 @@ public class PlayerCombat : BasePlayerService
     private InputData m_currentInputData;
 
     private WeaponManager m_currentWeapon;
+    private bool m_wasShootPressedLastFrame = false;
 
 
     private void OnDisable()
@@ -44,11 +45,14 @@ public class PlayerCombat : BasePlayerService
         UseWeapon();
 
         ReloadWeapon();
+
+        FireRateWeapon();
     }
 
     private void AimWeapon()
     {
-        if (m_currentWeapon == null) return;
+        if (m_currentWeapon == null)
+            return;
 
         IWeaponLogic logic = m_currentWeapon.GetLogic();
         if (logic != null && logic is RangeWeaponLogic rangeLogic)
@@ -59,31 +63,55 @@ public class PlayerCombat : BasePlayerService
 
     private void UseWeapon()
     {
-        if (m_currentWeapon == null) return;
+        if (m_currentWeapon == null)
+            return;
 
         IWeaponLogic logic = m_currentWeapon?.GetLogic();
         if (logic == null)
             return;
 
-        if (m_currentInputData.Shoot)
+        bool isShootingNow = m_currentInputData.Shoot;
+
+        if (isShootingNow)
         {
             logic.Use(m_currentWeapon);
         }
-        else
+        else if (m_wasShootPressedLastFrame)
         {
             // Release trigger
             logic.OnReleaseTrigger();
+            
+            // Remove throwable from slots
+            if (logic is ThrowableWeaponLogic throwableWeapon)
+            {
+                m_playerManager.HandleWeaponSwitched(null);
+            }
         }
+
+        m_wasShootPressedLastFrame = isShootingNow;
     }
 
     private void ReloadWeapon()
     {
-        if (m_currentWeapon == null || !m_currentInputData.Reload) return;
+        if (m_currentWeapon == null || !m_currentInputData.Reload)
+            return;
 
         IWeaponLogic logic = m_currentWeapon.GetLogic();
         if (logic != null && logic is IAmmoWeapon ammoWeapon)
         {
             ammoWeapon.TryReload(m_currentWeapon);
+        }
+    }
+
+    private void FireRateWeapon()
+    {
+        if (m_currentWeapon == null || !m_currentInputData.FireRate)
+            return;
+
+        IWeaponLogic logic = m_currentWeapon.GetLogic();
+        if (logic != null && logic is RangeWeaponLogic rangeWeapon)
+        {
+            rangeWeapon.ChangeFireMode();
         }
     }
 }

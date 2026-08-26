@@ -11411,49 +11411,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1410193439607571024, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+    - target: {fileID: 689073317095025620, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1410193439607571024, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+    - target: {fileID: 689073317095025620, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1410193439607571024, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410193439607571024, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+    - target: {fileID: 689073317095025620, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1410193439607571024, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+    - target: {fileID: 689073317095025620, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290349638668155979, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290349638668155979, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290349638668155979, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290349638668155979, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278515389530573624, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278515389530573624, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278515389530573624, guid: d077d53155319d343aa6a3177867f67c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278515389530573624, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414561610591291648, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476461092448737658, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476461092448737658, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476461092448737658, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476461092448737658, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5476461092448737658, guid: d077d53155319d343aa6a3177867f67c, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5996862274428431421, guid: d077d53155319d343aa6a3177867f67c, type: 3}
       propertyPath: m_LocalPosition.x
