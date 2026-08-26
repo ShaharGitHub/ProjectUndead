@@ -19,3 +19,9 @@ MonoBehaviour:
   - Type: 1
     Effect: {fileID: 166404, guid: 07981d74c1df0de418cf86845f279cf0, type: 3}
     Duration: 0
+  - Type: 2
+    Effect: {fileID: 1431530912211830, guid: 89d1cbabaa5df7a44b3eeeae898f42d0, type: 3}
+    Duration: 0
+  - Type: 3
+    Effect: {fileID: 193902, guid: e7b88576b8a272c4faf00aca67cedb62, type: 3}
+    Duration: 0

@@ -1,5 +1,11 @@
-public enum VfxTypes { MuzzleFlash, BulletImpact }
 public enum FireModes { Auto, Semi, Burst }
+public enum VfxTypes
+{ 
+    MuzzleFlash,
+    BulletImpact,
+    GranadeExplode,
+    SmokeExplode,
+}
 
 public static class GlobalData
 {

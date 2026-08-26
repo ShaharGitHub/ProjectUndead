@@ -48,14 +48,14 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
                 StopCoroutine(m_selfDestroyCoroutine);
             }
             m_selfDestroyCoroutine = StartCoroutine(SelfDestroyRoutine(m_timeToSelfDestroy));
-            Debug.Log($"<color=red>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
+            Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
         }
         else
         {
             if (m_selfDestroyCoroutine != null)
             {
                 StopCoroutine(m_selfDestroyCoroutine);
-                Debug.Log($"{m_currentWeaponData.Name} cancel <color=green>Self Destroy</color>");
+                Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=green>cancel Self Destroy</color>");
             }
         }
     }

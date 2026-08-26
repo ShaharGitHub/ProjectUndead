@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da76dae6d8f13aa4fbe1fbd1e5602239, type: 3}
-  m_Name: Knife
+  m_Name: Bat
   m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponDataSO
-  Icon: {fileID: 0}
-  Name: Knife
+  Icon: {fileID: 21300000, guid: 9bf6dc2ac229b7142b330003b28bf927, type: 3}
+  Name: Bat
   Type: 1
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 1079387494257586, guid: 27af943660497544a943e5dc2595eea7, type: 3}
   Damage: 50
-  DelayTime: 1.5
+  Range: 1.5
+  AttackRate: 1
+  HitboxRadius: 0.5
   UseAnimation: {fileID: 0}

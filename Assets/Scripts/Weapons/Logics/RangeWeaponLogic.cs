@@ -5,16 +5,14 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 {
     public readonly RangeWeaponDataSO m_data;
     public bool m_destroyOnEquip { get; private set; } = false;
-    private float m_nextFireTime;
+    private float m_fireRateTimer;
     private bool m_isBurst = false;
-    private float m_fireRateTimer = 0;
     private bool m_wasTriggerReleased = true;
 
     // Ammo
     public int CurrentClipAmmo { get; private set; }
     public int CurrentReserveAmmo { get; private set; }
     public bool IsReloading { get; private set; }
-    private float m_reloadStartTime;
 
 
     public BaseWeaponData GetData()
@@ -91,19 +89,19 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
             return;
 
         // Check fire rate
-        if (Time.time < m_nextFireTime) return;
+        if (Time.time < m_fireRateTimer) return;
 
         switch (m_data.FireMode)
         {
             case FireModes.Auto:
                 FireBullet(weaponManager);
-                m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+                m_fireRateTimer = Time.time + (1f / m_data.FireRate); // Update fire rate
                 break;
 
             case FireModes.Semi:
                 m_wasTriggerReleased = false; // Disable shot if holding trigger
                 FireBullet(weaponManager);
-                m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+                m_fireRateTimer = Time.time + (1f / m_data.FireRate); // Update fire rate
                 break;
 
             case FireModes.Burst:
@@ -129,7 +127,7 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
             yield return new WaitForSeconds(0.1f); // Delay between shoots
         }
 
-        m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+        m_fireRateTimer = Time.time + (1f / m_data.FireRate); // Update fire rate
         m_isBurst = false;
     }
 
@@ -184,12 +182,12 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 
         // Show shoot effect
         var weaponVfx = weaponManager.GetService<WeaponVFX>();
-        weaponVfx?.SpawnEffect(weaponMuzzle.gameObject, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation, weaponMuzzle.transform);
+        weaponVfx?.SpawnEffect(VfxTypes.MuzzleFlash, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation, weaponMuzzle.transform);
 
         // Check for hits
         if (didHit)
         {
-            weaponVfx?.SpawnEffect(hit.transform.gameObject, hit.point);
+            weaponVfx?.SpawnEffectBySource(hit.transform.gameObject, hit.point);
             //Debug.Log($"Weapon hit {hit.transform.name} - {LayerMask.LayerToName(hit.transform.gameObject.layer)}");
         }
 

@@ -1,52 +1,130 @@
+using System.Collections;
 using UnityEngine;
 
-public class ThrowableWeaponLogic : IWeaponLogic
+public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
 {
-    public readonly ThrowableWeaponDataSO _data;
+    public readonly ThrowableWeaponDataSO m_data;
     public bool m_destroyOnEquip { get; private set; } = false;
+    private bool m_isHoldingToThrow = false;
+    private WeaponManager m_currentWeaponManager;
+
+    // Ammo
+    public int CurrentClipAmmo { get; private set; }
+    public int CurrentReserveAmmo { get; private set; }
+    public bool IsReloading { get; private set; }
+
 
     public BaseWeaponData GetData()
     {
-        return _data;
+        return m_data;
     }
 
     public ThrowableWeaponLogic(ThrowableWeaponDataSO data)
     {
         // Set the current SO (from ThrowableWeaponDataSO)
-        _data = data;
+        m_data = data;
+
+        // Ammo
+        CurrentClipAmmo = m_data.MaxAmmo;
+        CurrentReserveAmmo = 0;
     }
 
+    #region IWeaponLogic
     public void SetDestroyOnEquip(bool stat)
     {
         m_destroyOnEquip = stat;
     }
 
-    public WeaponManager Equip(WeaponManager equipWeapon, GameObject weaponPrefab, Transform handSlot, Camera eyesCamera) // Used by "PlayerInteract"
+    public WeaponManager Equip(WeaponManager pickedWeapon, GameObject weaponPrefab, Transform handSlot, Camera eyesCamera)
     {
-        //// Drop previous weapon from player hand
-        //if (previousWeapon != null)
-        //    Drop(previousWeapon);
+        WeaponManager returnedWeaponManager;
 
-        // Create new weapon on player hand
-        WeaponManager newWeapon = equipWeapon;
+        if (!m_destroyOnEquip) // <= Store
+        {
+            // Create new weapon on player hand
+            GameObject newWeaponObj = Object.Instantiate(weaponPrefab, handSlot);
+            returnedWeaponManager = newWeaponObj.GetComponent<WeaponManager>();
 
-        // Destroy weapon in m_destroyOnEquip = true
-        if (m_destroyOnEquip)
-            equipWeapon.DestroyWeapon();
+            // Set data for new weapon
+            returnedWeaponManager.SetData(pickedWeapon.GetLogic().GetData());
 
-        Debug.Log("Throwable weapon equiped");
+            // Disable weapon from being a "Shop" (duplication)
+            returnedWeaponManager.DisableDestroyOnEquip();
+        }
+        else // <= Not store
+        {
+            returnedWeaponManager = pickedWeapon;
+            returnedWeaponManager.transform.SetParent(handSlot);
+            returnedWeaponManager.SetSelfDestroy(false); // Cancel self destroy (despawn)
+        }
 
-        return null;
+        // Reset weapon transform on player hand
+        returnedWeaponManager.transform.localPosition = Vector3.zero;
+        returnedWeaponManager.transform.localRotation = Quaternion.identity;
+        returnedWeaponManager.transform.localScale = Vector3.one;
+
+        // Get player eyes camera
+        if (eyesCamera != null)
+            returnedWeaponManager.SetEyes(eyesCamera);
+
+        // Stop weapon gravity
+        if (returnedWeaponManager.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
+            weaponRb.isKinematic = true;
+
+        //Debug.Log("Range weaponManager picked");
+
+        return returnedWeaponManager;
     }
 
-    public void Use(WeaponManager weapon) // Used by "PlayerCombat"
+    public void Use(WeaponManager weapon)
     {
-        //weapon.UseWeapon();
+        if (m_isHoldingToThrow)
+            return;
 
-        Debug.Log("Throwable weapon used");
+        if (!TryConsumeAmmo())
+        {
+            Debug.Log("<color=red>No grenades left!</color>");
+            return;
+        }
+
+        m_isHoldingToThrow = true;
+
+        // Get current weapon
+        m_currentWeaponManager = weapon;
+
+        // Start Explosive routine
+        weapon.StartCoroutine(ExplodeRoutine(weapon));
+
+        Debug.Log("<color=orange>Grenade thrown!</color>");
     }
 
-    public void Drop(WeaponManager weapon) // Used by "__"
+    public void OnReleaseTrigger()
+    {
+        // No holding a throwable OR No throwable in hand
+        if (!m_isHoldingToThrow || m_currentWeaponManager == null)
+            return;
+
+        m_isHoldingToThrow = false; // Stop holding
+
+        // Disconnect throwable from hand
+        m_currentWeaponManager.transform.parent = null;
+
+        // Active physics
+        if (m_currentWeaponManager.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
+        {
+            weaponRb.isKinematic = false;
+            weaponRb.mass = 1.5f;
+            weaponRb.AddForce(m_currentWeaponManager.transform.forward * 700 + m_currentWeaponManager.transform.up * 300);
+            weaponRb.AddTorque(Random.insideUnitSphere * 1f);
+        }
+
+        Debug.Log("<color=cyan>Grenade thrown into the world!</color>");
+
+        // Clear current weapon
+        m_currentWeaponManager = null;
+    }
+
+    public void Drop(WeaponManager weapon)
     {
         // Disconnect weapon from player
         weapon.transform.parent = null;
@@ -54,9 +132,73 @@ public class ThrowableWeaponLogic : IWeaponLogic
         // Drop weapon from hands forward
         if (weapon.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
         {
-            weaponRb.AddForce(weapon.transform.right * -200 + weapon.transform.up * 100);
+            weaponRb.isKinematic = false;
+            weaponRb.mass = 2f;
+            weaponRb.AddForce(weapon.transform.forward * 200 + weapon.transform.up * 100);
+            weaponRb.AddTorque(Random.insideUnitSphere * 1f);
         }
 
-        Debug.Log("Throwable Weapon droped");
+        // Active self destroy (despawn)
+        weapon.SetSelfDestroy(true);
+
+        //Debug.Log("Range Weapon droped");
     }
+    #endregion
+
+    #region IAmmoWeapon
+    public bool TryConsumeAmmo()
+    {
+        // No ammo on current clip
+        if (CurrentClipAmmo <= 0)
+            return false;
+
+        // Decrease current clip ammo
+        CurrentClipAmmo--;
+        return true;
+    }
+
+    public bool TryReload(WeaponManager weaponManager)
+    {
+        return false;
+    }
+
+    private IEnumerator ExplodeRoutine(WeaponManager weapon)
+    {
+        // Granade time to exploade
+        yield return new WaitForSeconds(m_data.TimeToExpload);
+
+        // The throwable destroyed for some reason
+        if (weapon == null)
+            yield break;
+
+        // Explosive position
+        Vector3 explosionPos = weapon.transform.position;
+
+        if (m_data.IsDamage)
+        {
+            // Check all colliders that effected by the radius
+            Collider[] colliders = Physics.OverlapSphere(explosionPos, m_data.Radius);
+
+            // Run over each collider
+            foreach (var hit in colliders)
+            {
+                // Don't exploade self
+                if (hit.gameObject == weapon.gameObject)
+                    continue;
+
+                // Check for IDamageable objects
+                // if (hit.TryGetComponent<IDamageable>(out var damageable)) { damageable.TakeDamage(...); }
+
+                Debug.Log($"Explosion hit: <color=cyan>{hit.name}</color>");
+            }
+        }
+
+        // Create explosive effect
+        var weaponVfx = weapon.GetService<WeaponVFX>();
+        weaponVfx?.SpawnEffect(m_data.VfxType, weapon.transform.position, Quaternion.Euler(-90, 0, 0));
+
+        // Destroy the granade
+        Object.Destroy(weapon.gameObject);
+    }
+    #endregion
 }

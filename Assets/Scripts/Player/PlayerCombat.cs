@@ -71,9 +71,8 @@ public class PlayerCombat : BasePlayerService
         }
         else
         {
-            // Release trigger (for semi weapon like pistols)
-            if (logic is RangeWeaponLogic rangeWeapon)
-                rangeWeapon.OnReleaseTrigger();
+            // Release trigger
+            logic.OnReleaseTrigger();
         }
     }
 

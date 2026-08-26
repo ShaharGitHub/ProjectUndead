@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da76dae6d8f13aa4fbe1fbd1e5602239, type: 3}
+  m_Name: Pickaxe 2
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponDataSO
+  Icon: {fileID: 21300000, guid: 98f3f3c2e073e56409e1b7a51a7c99df, type: 3}
+  Name: Pickaxe 2
+  Type: 1
+  Prefab: {fileID: 1067121409636586, guid: 7da2ab92a3d002547933b538f4ef3d4c, type: 3}
+  Damage: 50
+  Range: 1.5
+  AttackRate: 1
+  HitboxRadius: 0.5
+  UseAnimation: {fileID: 0}

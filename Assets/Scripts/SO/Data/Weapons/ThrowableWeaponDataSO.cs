@@ -7,8 +7,12 @@ public class ThrowableWeaponDataSO : BaseWeaponData
     public int MaxAmmo;
 
     [Header("Stats:")]
+    public bool IsDamage;
     public float Radius;
     public float TimeToExpload;
+
+    [Header("VFX:")]
+    public VfxTypes VfxType;
 
     [Header("Animations:")]
     public AnimationClip HoldAnimation;

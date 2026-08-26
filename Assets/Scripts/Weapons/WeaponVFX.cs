@@ -4,7 +4,12 @@ public class WeaponVFX : BaseWeaponService
 {
     [SerializeField] private EffectsEngine m_effectsEngine;
 
-    public void SpawnEffect(GameObject source, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    public void SpawnEffect(VfxTypes effect, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    {
+        m_effectsEngine?.SpawnEffect(effect, position, rotation, parent);
+    }
+
+    public void SpawnEffectBySource(GameObject source, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
         VfxTypes effect = IdentifyEffect(source);
         m_effectsEngine?.SpawnEffect(effect, position, rotation, parent);
@@ -12,10 +17,6 @@ public class WeaponVFX : BaseWeaponService
 
     private VfxTypes IdentifyEffect(GameObject source)
     {
-        // Muzzle flash effect
-        if (source.TryGetComponent<MuzzlePosition>(out _))
-            return VfxTypes.MuzzleFlash;
-
         //// Hit enemy effect
         //if (source.TryGetComponent<IEnemy>(out _))
         //    return EffectTypes.ZombieBloodImpact;

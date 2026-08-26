@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44db3ce24329d864c8abcbbbbefed3a8, type: 3}
   m_Name: Granade
   m_EditorClassIdentifier: Assembly-CSharp::ThrowableWeaponDataSO
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: bb0e61c4517237142b9c91d59184d6b3, type: 3}
   Name: Granade
   Type: 2
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 1000582683020524, guid: 1ddc1d0c706325d4ab53c03f00f0520d, type: 3}
   Damage: 100
-  MaxAmount: 3
+  MaxAmmo: 1
+  IsDamage: 1
   Radius: 20
   TimeToExpload: 3
+  VfxType: 2
   HoldAnimation: {fileID: 0}
   ReleaseAnimation: {fileID: 0}
