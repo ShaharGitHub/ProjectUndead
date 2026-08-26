@@ -5,7 +5,10 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 {
     public readonly RangeWeaponDataSO m_data;
     public bool m_destroyOnEquip { get; private set; } = false;
+    private float m_nextFireTime;
+    private bool m_isBurst = false;
     private float m_fireRateTimer = 0;
+    private bool m_wasTriggerReleased = true;
 
     // Ammo
     public int CurrentClipAmmo { get; private set; }
@@ -37,58 +40,112 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 
     public WeaponManager Equip(WeaponManager pickedWeapon, GameObject weaponPrefab, Transform handSlot, Camera eyesCamera)
     {
-        // Create new weapon on player hand
-        GameObject newWeaponObj = Object.Instantiate(weaponPrefab, handSlot);
-        WeaponManager newWeaponManager = newWeaponObj.GetComponent<WeaponManager>();
+        WeaponManager returnedWeaponManager;
+
+        if (!m_destroyOnEquip) // <= Store
+        {
+            // Create new weapon on player hand
+            GameObject newWeaponObj = Object.Instantiate(weaponPrefab, handSlot);
+            returnedWeaponManager = newWeaponObj.GetComponent<WeaponManager>();
+
+            // Set data for new weapon
+            returnedWeaponManager.SetData(pickedWeapon.GetLogic().GetData());
+
+            // Disable weapon from being a "Shop" (duplication)
+            returnedWeaponManager.DisableDestroyOnEquip();
+        }
+        else // <= Not store
+        {
+            returnedWeaponManager = pickedWeapon;
+            returnedWeaponManager.transform.SetParent(handSlot);
+            returnedWeaponManager.SetSelfDestroy(false); // Cancel self destroy (despawn)
+        }
 
         // Reset weapon transform on player hand
-        newWeaponManager.transform.localPosition = Vector3.zero;
-        newWeaponManager.transform.localRotation = Quaternion.identity;
-        newWeaponManager.transform.localScale = Vector3.one;
-
-        // Set data for new weapon
-        newWeaponManager.SetData(pickedWeapon.GetLogic().GetData());
-
-        // Disable weapon from being a "Shop" (duplication)
-        newWeaponManager.DisableDestroyOnEquip();
+        returnedWeaponManager.transform.localPosition = Vector3.zero;
+        returnedWeaponManager.transform.localRotation = Quaternion.identity;
+        returnedWeaponManager.transform.localScale = Vector3.one;
 
         // Get player eyes camera
         if (eyesCamera != null)
-            newWeaponManager.SetEyes(eyesCamera);
+            returnedWeaponManager.SetEyes(eyesCamera);
 
         // Stop weapon gravity
-        if (newWeaponManager.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
+        if (returnedWeaponManager.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
             weaponRb.isKinematic = true;
 
-        // Destroy weapon in m_destroyOnEquip = true
-        if (m_destroyOnEquip)
-            pickedWeapon.DestroyWeapon();
+        //Debug.Log("Range weaponManager picked");
 
-        Debug.Log("Range weaponManager picked");
-
-        return newWeaponManager;
+        return returnedWeaponManager;
     }
 
     public void Use(WeaponManager weaponManager)
     {
-        // ========================== Fire Rate ========================== //
+        // ========================== Fire Mode ========================== //
 
-        // Check if enough time has passed since the last shot
-        if (Time.time < m_fireRateTimer) return;
+        // Don't stop burst shot
+        if (m_isBurst) return;
 
-        // Calculate the required delay based on the fire rate
-        float fireInterval = 1f / m_data.FireRate;
+        // Player not released the trigger with semi weapon
+        if (m_data.FireMode == FireModes.Semi && !m_wasTriggerReleased)
+            return;
 
-        // Update the timestamp for the next allowed shot
-        m_fireRateTimer = Time.time + fireInterval;
+        // Check fire rate
+        if (Time.time < m_nextFireTime) return;
 
+        switch (m_data.FireMode)
+        {
+            case FireModes.Auto:
+                FireBullet(weaponManager);
+                m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+                break;
+
+            case FireModes.Semi:
+                m_wasTriggerReleased = false; // Disable shot if holding trigger
+                FireBullet(weaponManager);
+                m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+                break;
+
+            case FireModes.Burst:
+                weaponManager.StartCoroutine(FireBurstRoutine(weaponManager));
+                break;
+        }
+    }
+
+    private IEnumerator FireBurstRoutine(WeaponManager weaponManager)
+    {
+        m_isBurst = true;
+
+        //// Optional: Calculate fire rate for burst
+        //float burstInterval = (1f / m_data.FireRate) * 0.75f;
+
+        for (int i = 0; i < 3; i++)
+        {
+            FireBullet(weaponManager);
+
+            if (CurrentClipAmmo <= 0)
+                break;
+
+            yield return new WaitForSeconds(0.1f); // Delay between shoots
+        }
+
+        m_nextFireTime = Time.time + (1f / m_data.FireRate); // Update fire rate
+        m_isBurst = false;
+    }
+
+    private void FireBullet(WeaponManager weaponManager)
+    {
         // ========================== Ammo ========================== //
 
         if (!TryConsumeAmmo())
         {
+            return;
+        }
+
+        if (CurrentClipAmmo <= 0)
+        {
             TryReload(weaponManager);
             Debug.Log("Clip is empty!");
-            return;
         }
 
         // ========================== Fire ========================== //
@@ -133,8 +190,16 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
         if (didHit)
         {
             weaponVfx?.SpawnEffect(hit.transform.gameObject, hit.point);
-            Debug.Log($"Weapon hit {hit.transform.name} - {LayerMask.LayerToName(hit.transform.gameObject.layer)}");
+            //Debug.Log($"Weapon hit {hit.transform.name} - {LayerMask.LayerToName(hit.transform.gameObject.layer)}");
         }
+
+        // ========================== Sounds ========================== //
+        // weaponManager.VFX
+    }
+
+    public void OnReleaseTrigger()
+    {
+        m_wasTriggerReleased = true;
     }
 
     public void Drop(WeaponManager weapon)
@@ -146,10 +211,15 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
         if (weapon.TryGetComponent<Rigidbody>(out Rigidbody weaponRb))
         {
             weaponRb.isKinematic = false;
+            weaponRb.mass = 2f;
             weaponRb.AddForce(weapon.transform.forward * 200 + weapon.transform.up * 100);
+            weaponRb.AddTorque(Random.insideUnitSphere * 1f);
         }
 
-        Debug.Log("Range Weapon droped");
+        // Active self destroy (despawn)
+        weapon.SetSelfDestroy(true);
+
+        //Debug.Log("Range Weapon droped");
     }
     #endregion
 

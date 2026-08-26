@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
   m_currentWeaponData: {fileID: 11400000, guid: 367e7e04c2e69074399589ca698cf692, type: 2}
+  m_timeToSelfDestroy: 5
   m_destroyOnEquip: 0
 --- !u!54 &7092182923690310513
 Rigidbody:

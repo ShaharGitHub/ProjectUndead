@@ -6,15 +6,15 @@ public class WeaponVFX : BaseWeaponService
 
     public void SpawnEffect(GameObject source, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
-        EffectTypes effect = IdentifyEffect(source);
+        VfxTypes effect = IdentifyEffect(source);
         m_effectsEngine?.SpawnEffect(effect, position, rotation, parent);
     }
 
-    private EffectTypes IdentifyEffect(GameObject source)
+    private VfxTypes IdentifyEffect(GameObject source)
     {
         // Muzzle flash effect
         if (source.TryGetComponent<MuzzlePosition>(out _))
-            return EffectTypes.MuzzleFlash;
+            return VfxTypes.MuzzleFlash;
 
         //// Hit enemy effect
         //if (source.TryGetComponent<IEnemy>(out _))
@@ -25,6 +25,6 @@ public class WeaponVFX : BaseWeaponService
         //    return EffectTypes.PlayerHitImpact;
 
         // Default bullet impact effect
-        return EffectTypes.BulletImpact;
+        return VfxTypes.BulletImpact;
     }
 }

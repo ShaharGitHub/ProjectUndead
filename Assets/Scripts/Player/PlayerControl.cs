@@ -111,7 +111,7 @@ public class PlayerControl : BasePlayerService
 
         if (col.transform.gameObject.layer == _colLayerIndex)
         {
-            Debug.Log("Ground");
+            //Debug.Log("Ground");
             m_isGrounded = true;
         }
     }

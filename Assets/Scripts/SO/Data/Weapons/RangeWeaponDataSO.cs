@@ -15,6 +15,7 @@ public class RangeWeaponDataSO : BaseWeaponData
     [Range(0.5f, 20f)] public float FireRate;
     public float Accuracy;
     [Range(10f, 1000f)] public float Range;
+    public FireModes FireMode;
     public float ReloadTime;
     public float Spread;                   // <- For shotguns
 

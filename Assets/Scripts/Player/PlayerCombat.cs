@@ -39,24 +39,21 @@ public class PlayerCombat : BasePlayerService
     {
         if (m_currentInputData == null) return;
 
-        AimWeapon(m_currentInputData.ADS);
+        AimWeapon();
 
-        if (m_currentInputData.Shoot)
-        {
-            UseWeapon();
-        }
+        UseWeapon();
 
-        ReloadWeapon(m_currentInputData.Reload);
+        ReloadWeapon();
     }
 
-    private void AimWeapon(bool isAiming)
+    private void AimWeapon()
     {
         if (m_currentWeapon == null) return;
 
         IWeaponLogic logic = m_currentWeapon.GetLogic();
         if (logic != null && logic is RangeWeaponLogic rangeLogic)
         {
-            m_playerManager.HandleWeaponAiming(isAiming, rangeLogic.m_data.AdsPosition);
+            m_playerManager.HandleWeaponAiming(m_currentInputData.ADS, rangeLogic.m_data.AdsPosition);
         }
     }
 
@@ -64,13 +61,25 @@ public class PlayerCombat : BasePlayerService
     {
         if (m_currentWeapon == null) return;
 
-        // Use weapon
-        m_currentWeapon?.GetLogic()?.Use(m_currentWeapon);
+        IWeaponLogic logic = m_currentWeapon?.GetLogic();
+        if (logic == null)
+            return;
+
+        if (m_currentInputData.Shoot)
+        {
+            logic.Use(m_currentWeapon);
+        }
+        else
+        {
+            // Release trigger (for semi weapon like pistols)
+            if (logic is RangeWeaponLogic rangeWeapon)
+                rangeWeapon.OnReleaseTrigger();
+        }
     }
 
-    private void ReloadWeapon(bool isReloading)
+    private void ReloadWeapon()
     {
-        if (m_currentWeapon == null || !isReloading) return;
+        if (m_currentWeapon == null || !m_currentInputData.Reload) return;
 
         IWeaponLogic logic = m_currentWeapon.GetLogic();
         if (logic != null && logic is IAmmoWeapon ammoWeapon)

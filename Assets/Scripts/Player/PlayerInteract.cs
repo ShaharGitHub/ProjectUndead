@@ -59,7 +59,7 @@ public class PlayerInteract : BasePlayerService
                 if (hit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
                 {
                     interactable.Interact(this);
-                    Debug.Log(interactable.GetInteractPrompt());
+                    //Debug.Log(interactable.GetInteractPrompt());
                 }
             }
         }

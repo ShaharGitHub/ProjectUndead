@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +11,8 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
     [Header("Data:")]
     [SerializeField] private BaseWeaponData m_currentWeaponData;
     [SerializeField] private IWeaponLogic m_currentWeaponLogic;
-
+    [SerializeField] private float m_timeToSelfDestroy;
+    private Coroutine m_selfDestroyCoroutine;
     [SerializeField] private bool m_destroyOnEquip = false;
 
     public Camera m_eyesCamera { get; private set; }
@@ -35,6 +37,33 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
     public void SetEyes(Camera eyesCamera)
     {
         m_eyesCamera = eyesCamera;
+    }
+
+    public void SetSelfDestroy(bool toDestroy)
+    {
+        if (toDestroy)
+        {
+            if (m_selfDestroyCoroutine != null)
+            {
+                StopCoroutine(m_selfDestroyCoroutine);
+            }
+            m_selfDestroyCoroutine = StartCoroutine(SelfDestroyRoutine(m_timeToSelfDestroy));
+            Debug.Log($"<color=red>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
+        }
+        else
+        {
+            if (m_selfDestroyCoroutine != null)
+            {
+                StopCoroutine(m_selfDestroyCoroutine);
+                Debug.Log($"{m_currentWeaponData.Name} cancel <color=green>Self Destroy</color>");
+            }
+        }
+    }
+
+    public IEnumerator SelfDestroyRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     // ======================================== IInteractable ======================================== //

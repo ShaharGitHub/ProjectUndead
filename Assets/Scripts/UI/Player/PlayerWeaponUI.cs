@@ -4,8 +4,12 @@ using UnityEngine.UI;
 
 public class PlayerWeaponUI : BasePlayerService
 {
+    [Header("Settings:")]
+    [SerializeField] private float m_reloadIconSpeed;
+
     [Header("References:")]
     [SerializeField] private Image m_weaponIcon;
+    [SerializeField] private Image m_reloadIcon;
     [SerializeField] private TextMeshProUGUI m_ammoText;
 
     private WeaponManager m_currentWeapon;
@@ -37,33 +41,54 @@ public class PlayerWeaponUI : BasePlayerService
 
     private void UpdateWeaponUI()
     {
-        if (m_ammoText == null || m_weaponIcon == null)
-            return;
+        IAmmoWeapon currentAmmoWeapon = null;
 
-        // No weapon in hand
-        if (m_currentWeapon == null)
+        if (m_ammoText != null && m_weaponIcon != null)
         {
-            m_weaponIcon.sprite = null;
-            m_ammoText.text = "";
-            return;
+            // No weapon in hand
+            if (m_currentWeapon == null)
+            {
+                m_weaponIcon.sprite = null;
+                m_ammoText.text = "";
+                return;
+            }
+
+            // Try get current weapon logic
+            IWeaponLogic logic = m_currentWeapon.GetLogic();
+            if (logic == null)
+                return;
+
+            // Get ammo text
+            string ammoText = ""; // Else = Melee weapon
+            if (logic is IAmmoWeapon ammoWeapon)
+            {
+                // Weapon with ammo
+                currentAmmoWeapon = ammoWeapon;
+                ammoText = $"{ammoWeapon.CurrentClipAmmo}/{ammoWeapon.CurrentReserveAmmo}";
+            }
+            m_ammoText.text = ammoText;
+
+            // Get weapon icon
+            Sprite currentIcon = logic.GetData().Icon;
+            m_weaponIcon.sprite = currentIcon;
         }
 
-        // Try get current weapon logic
-        IWeaponLogic logic = m_currentWeapon.GetLogic();
-        if (logic == null)
-            return;
-
-        // Get ammo text
-        string ammoText = ""; // Else = Melee weapon
-        if (logic is IAmmoWeapon ammoWeapon)
+        // Reload icon
+        if (currentAmmoWeapon != null && m_reloadIcon != null)
         {
-            // Weapon with ammo
-            ammoText = $"{ammoWeapon.CurrentClipAmmo}/{ammoWeapon.CurrentReserveAmmo}";
-        }
-        m_ammoText.text = ammoText;
+            // Show/Hide reload icon
+            m_reloadIcon.gameObject.SetActive(currentAmmoWeapon.IsReloading);
 
-        // Get weapon icon
-        Sprite currentIcon = logic.GetData().Icon;
-        m_weaponIcon.sprite = currentIcon;
+            if (currentAmmoWeapon.IsReloading)
+            {
+                // Active animation
+                m_reloadIcon.transform.Rotate(0, 0, m_reloadIconSpeed);
+            }
+            else
+            {
+                // Disable animation
+                m_reloadIcon.transform.rotation = Quaternion.identity;
+            }
+        }
     }
 }

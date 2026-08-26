@@ -7,14 +7,14 @@ public class EffectsFactorySO : ScriptableObject
     [System.Serializable]
     public class EffectData
     {
-        public EffectTypes Type;
+        public VfxTypes Type;
         public GameObject Effect;
         public float Duration;
     }
 
     public EffectData[] Data;
 
-    private Dictionary<EffectTypes, EffectData> m_effectsDict;
+    private Dictionary<VfxTypes, EffectData> m_effectsDict;
 
 
     private void OnEnable()
@@ -27,7 +27,7 @@ public class EffectsFactorySO : ScriptableObject
         if (Data == null) return;
 
         // Create new dictionary
-        m_effectsDict = new Dictionary<EffectTypes, EffectData>();
+        m_effectsDict = new Dictionary<VfxTypes, EffectData>();
 
         // Run over the dictionary
         foreach (EffectData data in Data)
@@ -43,7 +43,7 @@ public class EffectsFactorySO : ScriptableObject
     }
 
     // Vector3? -> turning the variable to be able to have Null.
-    public GameObject CreateEffect(EffectTypes type, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
+    public GameObject CreateEffect(VfxTypes type, Vector3? position = null, Quaternion? rotation = null, Transform parent = null)
     {
         // Create effects dictionary if not exist
         if (m_effectsDict == null) BuildEffectsDict();
