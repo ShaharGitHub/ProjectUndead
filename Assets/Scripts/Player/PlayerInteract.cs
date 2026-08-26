@@ -5,11 +5,13 @@ public class PlayerInteract : BasePlayerService
     // Input data
     private InputData m_currentInputData;
 
-    // Weapon
+    [Header("Settings:")]
     [SerializeField] private float m_rayRange;
 
     // References
     private Camera eyesCamera;
+
+    private IInteractable m_currentInteractable;
 
 
     private void OnDisable()
@@ -44,23 +46,37 @@ public class PlayerInteract : BasePlayerService
     {
         if (eyesCamera == null) return;
 
+        // Create var to interactable object
+        IInteractable interactable = null;
+
         // Create ray exit point
         Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
 
         // Check for hits
         if (Physics.Raycast(rayOrigin, eyesCamera.transform.forward, out RaycastHit hit, m_rayRange))
         {
-            //Debug.Log($"Hit: {hit.transform.name}");
+            // Check if hit an interactable object
+            hit.transform.TryGetComponent<IInteractable>(out interactable);
+        }
 
-            // Active interact by pressing "E"
+        if (m_currentInteractable != interactable)
+        {
+            // Hide last interactable prompt
+            m_currentInteractable?.HidePrompt();
+
+            // Update current interactable
+            m_currentInteractable = interactable;
+
+            // Show new interactable prompt
+            m_currentInteractable?.ShowPrompt();
+        }
+
+        // Interact with object if looking at one
+        if (m_currentInteractable != null)
+        {
             if (m_currentInputData.Interact)
             {
-                // Interact Weapon
-                if (hit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
-                {
-                    interactable.Interact(this);
-                    //Debug.Log(interactable.GetInteractPrompt());
-                }
+                m_currentInteractable.Interact(this);
             }
         }
     }

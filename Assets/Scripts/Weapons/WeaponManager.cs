@@ -17,6 +17,8 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
 
     public Camera m_eyesCamera { get; private set; }
 
+    public event Action<bool> OnInteractRay;
+
 
     private void Awake()
     {
@@ -60,6 +62,11 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
         }
     }
 
+    public bool GetDestroyOnEquip()
+    {
+        return m_destroyOnEquip;
+    }
+
     public IEnumerator SelfDestroyRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -70,7 +77,17 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
 
     public string GetInteractPrompt()
     {
-        return GlobalData.Prompts.Interact + m_currentWeaponData.Name;
+        return m_currentWeaponData.Name;
+    }
+
+    public void ShowPrompt()
+    {
+        OnInteractRay?.Invoke(true);
+    }
+
+    public void HidePrompt()
+    {
+        OnInteractRay?.Invoke(false);
     }
 
     public void Interact(PlayerInteract playerInteract)

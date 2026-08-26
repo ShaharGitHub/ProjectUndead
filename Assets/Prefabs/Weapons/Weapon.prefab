@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b022fad1a112540aec3a974bc041ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
-  m_currentWeaponData: {fileID: 11400000, guid: 367e7e04c2e69074399589ca698cf692, type: 2}
+  m_currentWeaponData: {fileID: 0}
   m_timeToSelfDestroy: 5
   m_destroyOnEquip: 0
 --- !u!54 &7092182923690310513
