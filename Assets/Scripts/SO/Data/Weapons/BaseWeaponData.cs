@@ -12,7 +12,7 @@ public abstract class BaseWeaponData : ScriptableObject
     public float Damage;
 
     [Header("Economy:")]
-    public int Cost;
+    public int Price;
 
     public abstract IWeaponLogic CreateWeapon();
 }

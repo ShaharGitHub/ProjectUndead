@@ -9,7 +9,8 @@ public class PlayerInteract : BasePlayerService
     [SerializeField] private float m_rayRange;
 
     // References
-    private Camera eyesCamera;
+    private Camera m_eyesCamera;
+    private PlayerInteractUI m_interactUI;
 
     private IInteractable m_currentInteractable;
 
@@ -25,9 +26,11 @@ public class PlayerInteract : BasePlayerService
 
         if (m_playerManager == null) return;
 
-        eyesCamera = m_playerManager.GetComponentInChildren<Camera>();
+        m_eyesCamera = m_playerManager.GetComponentInChildren<Camera>();
 
         m_playerManager.OnPlayerInputUpdated += HandleInput;
+
+        m_interactUI = m_playerManager.GetService<PlayerInteractUI>();
     }
 
     private void HandleInput(InputData inputData)
@@ -44,16 +47,16 @@ public class PlayerInteract : BasePlayerService
 
     private void Interact()
     {
-        if (eyesCamera == null) return;
+        if (m_eyesCamera == null) return;
 
         // Create var to interactable object
         IInteractable interactable = null;
 
         // Create ray exit point
-        Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        Vector3 rayOrigin = m_eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
 
         // Check for hits
-        if (Physics.Raycast(rayOrigin, eyesCamera.transform.forward, out RaycastHit hit, m_rayRange))
+        if (Physics.Raycast(rayOrigin, m_eyesCamera.transform.forward, out RaycastHit hit, m_rayRange))
         {
             // Check if hit an interactable object
             hit.transform.TryGetComponent<IInteractable>(out interactable);
@@ -62,13 +65,19 @@ public class PlayerInteract : BasePlayerService
         if (m_currentInteractable != interactable)
         {
             // Hide last interactable prompt
-            m_currentInteractable?.HidePrompt();
+            if (m_currentInteractable != null)
+            {
+                m_interactUI.HandleInteractRay(m_currentInteractable, false);
+            }
 
             // Update current interactable
             m_currentInteractable = interactable;
 
             // Show new interactable prompt
-            m_currentInteractable?.ShowPrompt();
+            if (m_currentInteractable != null)
+            {
+                m_interactUI.HandleInteractRay(m_currentInteractable, true);
+            }
         }
 
         // Interact with object if looking at one
@@ -89,10 +98,10 @@ public class PlayerInteract : BasePlayerService
 
     private void OnDrawGizmos()
     {
-        if (eyesCamera == null) return;
+        if (m_eyesCamera == null) return;
 
-        Vector3 rayOrigin = eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        Vector3 rayOrigin = m_eyesCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(rayOrigin, eyesCamera.transform.forward * m_rayRange);
+        Gizmos.DrawRay(rayOrigin, m_eyesCamera.transform.forward * m_rayRange);
     }
 }

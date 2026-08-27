@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
+public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 {
     private Dictionary<Type, object> m_weaponServices = new Dictionary<Type, object>();
 
@@ -16,8 +16,6 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
     [SerializeField] private bool m_destroyOnEquip = false;
 
     public Camera m_eyesCamera { get; private set; }
-
-    public event Action<bool> OnInteractRay;
 
 
     private void Awake()
@@ -80,19 +78,19 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable
         return m_currentWeaponData.Name;
     }
 
-    public void ShowPrompt()
-    {
-        OnInteractRay?.Invoke(true);
-    }
-
-    public void HidePrompt()
-    {
-        OnInteractRay?.Invoke(false);
-    }
-
     public void Interact(PlayerInteract playerInteract)
     {
         playerInteract.InteractWeapon(this);
+    }
+
+    // ======================================== IPriceable ======================================== //
+
+    public string GetPricePrompt()
+    {
+        if (!m_destroyOnEquip)
+            return m_currentWeaponData.Price.ToString();
+        else
+            return "";
     }
 
     // ======================================== IWeapon ======================================== //
