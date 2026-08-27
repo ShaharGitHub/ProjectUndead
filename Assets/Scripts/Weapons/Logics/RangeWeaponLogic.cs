@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
@@ -190,6 +189,7 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
         // Show shoot effect
         var weaponVfx = weaponManager.GetService<WeaponVFX>();
         weaponVfx?.SpawnEffect(VfxTypes.MuzzleFlash, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation, weaponMuzzle.transform);
+        weaponMuzzle.MuzzleLight();
 
         // Check for hits
         if (didHit)

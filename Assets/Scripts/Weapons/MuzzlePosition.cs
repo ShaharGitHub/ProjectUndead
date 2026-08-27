@@ -1,16 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class MuzzlePosition : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Transform m_muzzleFireLight;
+
+    public void MuzzleLight()
     {
-        
+        StartCoroutine(MuzzleLightRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator MuzzleLightRoutine()
     {
-        
+        m_muzzleFireLight.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.01f);
+        m_muzzleFireLight.gameObject.SetActive(false);
     }
 }

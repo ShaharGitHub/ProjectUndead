@@ -1,30 +1,36 @@
-using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyControl : BaseEnemyService
 {
     private NavMeshAgent m_agent;
-    private Transform m_target;
 
 
     public override void Init()
     {
         base.Init();
 
-        m_agent = GetComponent<NavMeshAgent>();
+        if (m_enemyManager != null)
+            m_agent = m_enemyManager.GetComponent<NavMeshAgent>();
+
+        SetAgentStats();
     }
 
     private void Update()
     {
-        if (m_agent == null || m_target == null)
+        if (m_agent == null || m_enemyManager == null || m_enemyManager.m_target == null)
             return;
 
-        m_agent.SetDestination(m_target.position);
+        m_agent.SetDestination(m_enemyManager.m_target.position);
+
+        // DEBUG
+        SetAgentStats();
     }
 
-    public void SetAgentTarget(Transform target)
+    private void SetAgentStats()
     {
-        m_target = target;
+        if (m_agent == null || m_enemyManager == null)
+            return;
+
+        m_agent.speed = m_enemyManager.EnemyData.WalkSpeed;
     }
 }

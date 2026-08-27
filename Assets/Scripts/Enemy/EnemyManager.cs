@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour, IDamageable
     // All enemy sub services
     private Dictionary<Type, object> m_services = new Dictionary<Type, object>();
 
+    [field: SerializeField] public Transform m_target { get; private set; }
+
     public event Action<float> OnTakeDamage;
 
 
@@ -23,7 +25,7 @@ public class EnemyManager : MonoBehaviour, IDamageable
 
     public void SetFollowTarget(Transform target)
     {
-        GetService<EnemyControl>()?.SetAgentTarget(target);
+        m_target = target;
     }
 
     public void TakeDamage(float damage)

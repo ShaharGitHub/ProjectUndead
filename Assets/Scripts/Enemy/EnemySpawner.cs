@@ -62,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
         if (m_enemyPrefab == null || m_followTarget == null || m_spawnPoint == null)
             return;
 
-        GameObject enemy;
+        GameObject enemy = null;
         enemy = Instantiate(m_enemyPrefab, m_spawnPoint.position, Quaternion.identity);
         if (enemy == null)
             return;

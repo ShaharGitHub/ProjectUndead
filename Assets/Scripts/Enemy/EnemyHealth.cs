@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHealth : BaseEnemyService
 {
-    private float m_health;
+    public float m_health { get; private set; }
 
 
     public override void Init()
@@ -28,7 +28,7 @@ public class EnemyHealth : BaseEnemyService
         {
             // TEMP
             Debug.Log($"{m_enemyManager.name} is Dead");
-            Destroy(m_enemyManager.gameObject);
+            Destroy(m_enemyManager.gameObject, 0.1f);
         }
     }
 }

@@ -90,8 +90,14 @@ public class PlayerControl : BasePlayerService
 
     private void Look()
     {
+        float sensSpeed;
+        if (m_currentInputData.ADS)
+            sensSpeed = m_playerManager.PlayerData.AimLookSpeed;
+        else
+            sensSpeed = m_playerManager.PlayerData.LookSpeed;
+
         // Rotate body (Y axis)
-        float yRotation = m_currentInputData.Look.x * m_playerManager.PlayerData.LookSpeed * Time.deltaTime;
+        float yRotation = m_currentInputData.Look.x * sensSpeed * Time.deltaTime;
         m_playerManager.transform.Rotate(0, yRotation, 0);
 
         // Find eyes transform
@@ -99,7 +105,7 @@ public class PlayerControl : BasePlayerService
         if (eyes == null) return;
 
         // Rotate eyes (X Axis)
-        float xRotation = m_currentInputData.Look.y * m_playerManager.PlayerData.LookSpeed * Time.deltaTime;
+        float xRotation = m_currentInputData.Look.y * sensSpeed * Time.deltaTime;
         m_eyesRotation -= xRotation;
         m_eyesRotation = Mathf.Clamp(m_eyesRotation, -90, 90);
         eyes.localRotation = Quaternion.Euler(m_eyesRotation, 0, 0);

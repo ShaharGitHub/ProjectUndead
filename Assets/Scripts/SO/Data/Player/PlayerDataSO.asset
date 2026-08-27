@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataSO
   Model: {fileID: 1315923550000629945, guid: 875a2010d705b604f8a5d36dd1a8b485, type: 3}
   MaxHealth: 100
-  LookSpeed: 10
-  WalkSpeed: 10
-  SprintSpeed: 15
-  JumpHeight: 1
+  LookSpeed: 7
+  AimLookSpeed: 4
+  WalkSpeed: 7
+  SprintSpeed: 10
+  JumpHeight: 0.5
