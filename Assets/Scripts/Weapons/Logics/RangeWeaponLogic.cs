@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
@@ -177,6 +178,12 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 
         // Shoot raycast
         bool didHit = Physics.Raycast(weaponMuzzle.transform.position, rayDirection, out RaycastHit hit, m_data.Range, layerMask);
+
+        // Check for IDamageable objects
+        if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable?.TakeDamage(m_data.Damage);
+        }
 
         // ========================== Effects & Destroy ========================== //
 

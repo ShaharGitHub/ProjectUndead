@@ -95,10 +95,10 @@ public class MeleeWeaponLogic : IWeaponLogic
         if (hasHit)
         {
             // Check for IDamageable object
-            // if (hit.transform.TryGetComponent<IDamageable>(out var damageable))
-            // {
-            //     damageable.TakeDamage(m_data.Damage);
-            // }
+            if (hit.transform != null && hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                damageable.TakeDamage(m_data.Damage);
+            }
 
             Debug.Log($"<color=red>Melee hit object: {hit.transform.name} for {m_data.Damage} damage!</color>");
 

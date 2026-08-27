@@ -17,10 +17,11 @@ MonoBehaviour:
   Type: 2
   Prefab: {fileID: 1263194922129702, guid: 9542e0a3f73ed4c4caa252dddf2fcdc4, type: 3}
   Damage: 0
+  Price: 0
   MaxAmmo: 1
   IsDamage: 0
-  Radius: 20
-  TimeToExpload: 3
+  Radius: 5
+  TimeToExpload: -3
   VfxType: 3
   HoldAnimation: {fileID: 0}
   ReleaseAnimation: {fileID: 0}

@@ -48,14 +48,14 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
                 StopCoroutine(m_selfDestroyCoroutine);
             }
             m_selfDestroyCoroutine = StartCoroutine(SelfDestroyRoutine(m_timeToSelfDestroy));
-            Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
+            //Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
         }
         else
         {
             if (m_selfDestroyCoroutine != null)
             {
                 StopCoroutine(m_selfDestroyCoroutine);
-                Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=green>cancel Self Destroy</color>");
+                //Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=green>cancel Self Destroy</color>");
             }
         }
     }
@@ -75,7 +75,7 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public string GetInteractPrompt()
     {
-        return m_currentWeaponData.Name;
+        return $"{GlobalData.Prompts.Interact} <color=#08FFFA>{m_currentWeaponData.Name}</color>";
     }
 
     public void Interact(PlayerInteract playerInteract)
@@ -88,7 +88,7 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
     public string GetPricePrompt()
     {
         if (!m_destroyOnEquip)
-            return m_currentWeaponData.Price.ToString();
+            return $"{GlobalData.Prompts.Price} <color=#FFCD20>{m_currentWeaponData.Price}$</color>";
         else
             return "";
     }
@@ -167,5 +167,16 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
             return null;
         }
         return (T)m_weaponServices[typeof(T)];
-    } 
+    }
+
+    private void OnDrawGizmos()
+    {
+        IWeaponLogic logic = GetComponent<WeaponManager>()?.GetLogic();
+
+        if (logic is ThrowableWeaponLogic throwableLogic)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, throwableLogic.m_data.Radius);
+        }
+    }
 }

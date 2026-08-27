@@ -23,7 +23,7 @@ public class PlayerInteractUI : BasePlayerService
             return;
 
         // Info text
-        m_InfoText.text = $"{GlobalData.Prompts.Interact} <color=#08FFFA>{interactable.GetInteractPrompt()}</color>";
+        m_InfoText.text = interactable.GetInteractPrompt();
         m_InfoText.gameObject.SetActive(toShow);
 
 
@@ -31,10 +31,11 @@ public class PlayerInteractUI : BasePlayerService
         {
             string pricePrompt = priceable.GetPricePrompt();
 
+            // To hide price when no need to (Exp: weapon on floor)
             if (pricePrompt != "")
             {
                 // Cost text (Showen only for shop type)
-                m_costText.text = $"{GlobalData.Prompts.Price} <color=#FFCD20>{priceable.GetPricePrompt()}$</color>";
+                m_costText.text = pricePrompt;
                 m_costText.gameObject.SetActive(toShow);
             }
             else

@@ -83,7 +83,7 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
 
         if (!TryConsumeAmmo())
         {
-            Debug.Log("<color=red>No grenades left!</color>");
+            //Debug.Log("<color=red>No grenades left!</color>");
             return;
         }
 
@@ -95,7 +95,7 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
         // Start Explosive routine
         weapon.StartCoroutine(ExplodeRoutine(weapon));
 
-        Debug.Log("<color=orange>Grenade thrown!</color>");
+        //Debug.Log("<color=orange>Grenade thrown!</color>");
     }
 
     public void OnReleaseTrigger()
@@ -118,7 +118,7 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
             //weaponRb.AddTorque(Random.insideUnitSphere * 1f);
         }
 
-        Debug.Log("<color=cyan>Grenade thrown into the world!</color>");
+        //Debug.Log("<color=cyan>Grenade thrown into the world!</color>");
 
         // Clear current weapon
         m_currentWeaponManager = null;
@@ -164,8 +164,12 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
 
     private IEnumerator ExplodeRoutine(WeaponManager weapon)
     {
+        // Safe granade can't trigger on hand (Exp: smoke)
+        if (m_data.TimeToExpload < 0 && m_isHoldingToThrow)
+            yield return new WaitUntil(() => !m_isHoldingToThrow);
+
         // Granade time to exploade
-        yield return new WaitForSeconds(m_data.TimeToExpload);
+        yield return new WaitForSeconds(Mathf.Abs(m_data.TimeToExpload));
 
         // The throwable destroyed for some reason
         if (weapon == null)
@@ -187,7 +191,10 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
                     continue;
 
                 // Check for IDamageable objects
-                // if (hit.TryGetComponent<IDamageable>(out var damageable)) { damageable.TakeDamage(...); }
+                if (hit.transform != null && hit.TryGetComponent<IDamageable>(out IDamageable damageable))
+                {
+                    damageable.TakeDamage(m_data.Damage);
+                }
 
                 Debug.Log($"Explosion hit: <color=cyan>{hit.name}</color>");
             }
