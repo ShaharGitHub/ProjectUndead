@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51680e98f0914544885f29253bd304b6, type: 3}
   m_Name: App Version
   m_EditorClassIdentifier: Assembly-CSharp::AppVersionSO
-  appVersion: 0.1.0
+  appVersion: 0.01
   incrementType: 0

@@ -20,13 +20,13 @@ public class PlayerInput : BasePlayerService, IInputProvider
     public InputData inputData;
 
     // Event update input changes
+    public event Action<InputData> OnLocomotionInputUpdated;
     public event Action<InputData> OnInputUpdated;
 
 
     private void Awake()
     {
         inputData = new InputData();
-
         control = new PlayerInput_Actions();
 
         movementAction = control?.Player.Movement;
@@ -38,49 +38,61 @@ public class PlayerInput : BasePlayerService, IInputProvider
     {
         control?.Enable();
 
-        control.Player.Sprint.performed += ctx => { inputData.Sprint = true; TriggerInputEvent(); };
-        control.Player.Sprint.canceled += ctx => { inputData.Sprint = false; TriggerInputEvent(); };
+        control.Player.Sprint.performed += OnSprintPerformed;
+        control.Player.Sprint.canceled += OnSprintCanceled;
 
-        control.Player.Jump.performed += ctx => { inputData.Jump = true; TriggerInputEvent(); };
+        control.Player.Jump.performed += OnJumpPerformed;
+        control.Player.Drop.performed += OnDropPerformed;
 
-        control.Player.Drop.performed += ctx => { inputData.Drop = true; TriggerInputEvent(); };
+        control.Player.ADS.performed += OnADSPerformed;
+        control.Player.ADS.canceled += OnADSCanceled;
 
-        control.Player.ADS.performed += ctx => { inputData.ADS = true; TriggerInputEvent(); };
-        control.Player.ADS.canceled += ctx => { inputData.ADS = false; TriggerInputEvent(); };
+        control.Player.Shoot.performed += OnShootPerformed;
+        control.Player.Shoot.canceled += OnShootCanceled;
 
-        control.Player.Shoot.performed += ctx => { inputData.Shoot = true; TriggerInputEvent(); };
-        control.Player.Shoot.canceled += ctx => { inputData.Shoot = false; TriggerInputEvent(); };
-
-        control.Player.Reload.performed += ctx => { inputData.Reload = true; TriggerInputEvent(); };
-        control.Player.FireRate.performed += ctx => { inputData.FireRate = true; TriggerInputEvent(); };
-        control.Player.Melee.performed += ctx => { inputData.Melee = true; TriggerInputEvent(); };
-        control.Player.Grenade.performed += ctx => { inputData.Grenade = true; TriggerInputEvent(); };
-        control.Player.Interact.performed += ctx => { inputData.Interact = true; TriggerInputEvent(); };
+        control.Player.Reload.performed += OnReloadPerformed;
+        control.Player.FireRate.performed += OnFireRatePerformed;
+        control.Player.Melee.performed += OnMeleePerformed;
+        control.Player.Grenade.performed += OnGrenadePerformed;
+        control.Player.Interact.performed += OnInteractPerformed;
     }
 
     private void OnDisable()
     {
-        control.Player.Sprint.performed -= ctx => { inputData.Sprint = true; TriggerInputEvent(); };
-        control.Player.Sprint.canceled -= ctx => { inputData.Sprint = false; TriggerInputEvent(); };
+        control.Player.Sprint.performed -= OnSprintPerformed;
+        control.Player.Sprint.canceled -= OnSprintCanceled;
 
-        control.Player.Jump.performed -= ctx => { inputData.Jump = true; TriggerInputEvent(); };
+        control.Player.Jump.performed -= OnJumpPerformed;
+        control.Player.Drop.performed -= OnDropPerformed;
 
-        control.Player.Drop.performed -= ctx => { inputData.Drop = true; TriggerInputEvent(); };
+        control.Player.ADS.performed -= OnADSPerformed;
+        control.Player.ADS.canceled -= OnADSCanceled;
 
-        control.Player.ADS.performed -= ctx => { inputData.ADS = true; TriggerInputEvent(); };
-        control.Player.ADS.canceled -= ctx => { inputData.ADS = false; TriggerInputEvent(); };
+        control.Player.Shoot.performed -= OnShootPerformed;
+        control.Player.Shoot.canceled -= OnShootCanceled;
 
-        control.Player.Shoot.performed -= ctx => { inputData.Shoot = true; TriggerInputEvent(); };
-        control.Player.Shoot.canceled -= ctx => { inputData.Shoot = false; TriggerInputEvent(); };
-
-        control.Player.Reload.performed -= ctx => { inputData.Reload = true; TriggerInputEvent(); };
-        control.Player.FireRate.performed -= ctx => { inputData.FireRate = true; TriggerInputEvent(); };
-        control.Player.Melee.performed -= ctx => { inputData.Melee = true; TriggerInputEvent(); };
-        control.Player.Grenade.performed -= ctx => { inputData.Grenade = true; TriggerInputEvent(); };
-        control.Player.Interact.performed -= ctx => { inputData.Interact = true; TriggerInputEvent(); };
+        control.Player.Reload.performed -= OnReloadPerformed;
+        control.Player.FireRate.performed -= OnFireRatePerformed;
+        control.Player.Melee.performed -= OnMeleePerformed;
+        control.Player.Grenade.performed -= OnGrenadePerformed;
+        control.Player.Interact.performed -= OnInteractPerformed;
 
         control?.Disable();
     }
+
+    private void OnSprintPerformed(InputAction.CallbackContext ctx) { inputData.Sprint = true; TriggerInputEvent(); }
+    private void OnSprintCanceled(InputAction.CallbackContext ctx) { inputData.Sprint = false; TriggerInputEvent(); }
+    private void OnJumpPerformed(InputAction.CallbackContext ctx) { inputData.Jump = true; TriggerInputEvent(); }
+    private void OnDropPerformed(InputAction.CallbackContext ctx) { inputData.Drop = true; TriggerInputEvent(); }
+    private void OnADSPerformed(InputAction.CallbackContext ctx) { inputData.ADS = true; TriggerInputEvent(); }
+    private void OnADSCanceled(InputAction.CallbackContext ctx) { inputData.ADS = false; TriggerInputEvent(); }
+    private void OnShootPerformed(InputAction.CallbackContext ctx) { inputData.Shoot = true; TriggerInputEvent(); }
+    private void OnShootCanceled(InputAction.CallbackContext ctx) { inputData.Shoot = false; TriggerInputEvent(); }
+    private void OnReloadPerformed(InputAction.CallbackContext ctx) { inputData.Reload = true; TriggerInputEvent(); }
+    private void OnFireRatePerformed(InputAction.CallbackContext ctx) { inputData.FireRate = true; TriggerInputEvent(); }
+    private void OnMeleePerformed(InputAction.CallbackContext ctx) { inputData.Melee = true; TriggerInputEvent(); }
+    private void OnGrenadePerformed(InputAction.CallbackContext ctx) { inputData.Grenade = true; TriggerInputEvent(); }
+    private void OnInteractPerformed(InputAction.CallbackContext ctx) { inputData.Interact = true; TriggerInputEvent(); }
 
     private void Update()
     {
@@ -119,7 +131,7 @@ public class PlayerInput : BasePlayerService, IInputProvider
                 lastSentLook = currentLook;
                 lastSentScroll = currentScroll;
 
-                TriggerInputEvent();
+                TriggerLocomotionInputEvent();
             }
         }
     }
@@ -141,6 +153,11 @@ public class PlayerInput : BasePlayerService, IInputProvider
     private void TriggerInputEvent()
     {
         OnInputUpdated?.Invoke(inputData);
+    }
+
+    private void TriggerLocomotionInputEvent()
+    {
+        OnLocomotionInputUpdated?.Invoke(inputData);
     }
 
     private void Debug_CheckInput()

@@ -120,6 +120,9 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
 
         //Debug.Log("<color=cyan>Grenade thrown into the world!</color>");
 
+        if (CurrentClipAmmo <= 0)
+            TryReload(null);
+
         // Clear current weapon
         m_currentWeaponManager = null;
     }
@@ -159,7 +162,13 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
 
     public bool TryReload(WeaponManager weaponManager)
     {
-        return false;
+        if (CurrentReserveAmmo <= 0 || CurrentClipAmmo > 0)
+            return false;
+
+        CurrentReserveAmmo--;
+        CurrentClipAmmo++;
+
+        return true;
     }
 
     private IEnumerator ExplodeRoutine(WeaponManager weapon)
@@ -196,7 +205,7 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
                     damageable.TakeDamage(m_data.Damage);
                 }
 
-                Debug.Log($"Explosion hit: <color=cyan>{hit.name}</color>");
+                //Debug.Log($"Explosion hit: <color=cyan>{hit.name}</color>");
             }
         }
 

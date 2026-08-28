@@ -21,5 +21,6 @@ public class InputData
 
 public interface IInputProvider
 {
+    public event Action<InputData> OnLocomotionInputUpdated;
     public event Action<InputData> OnInputUpdated;
 }

@@ -84,7 +84,8 @@ public class PlayerCombat : BasePlayerService
             // Remove throwable from slots
             if (logic is ThrowableWeaponLogic throwableWeapon)
             {
-                m_playerManager.HandleWeaponSwitched(null);
+                if (throwableWeapon.CurrentReserveAmmo <= 0)
+                    m_playerManager.HandleWeaponSwitched(null);
             }
         }
 

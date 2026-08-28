@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerControl : BasePlayerService
 {
@@ -22,6 +21,7 @@ public class PlayerControl : BasePlayerService
 
     private void OnDisable()
     {
+        m_playerManager.OnPlayerLocomotionInputUpdated -= HandleInput;
         m_playerManager.OnPlayerInputUpdated -= HandleInput;
     }
 
@@ -31,6 +31,7 @@ public class PlayerControl : BasePlayerService
 
         if (m_playerManager == null) return;
 
+        m_playerManager.OnPlayerLocomotionInputUpdated += HandleInput;
         m_playerManager.OnPlayerInputUpdated += HandleInput;
 
         m_rootCharacter = m_playerManager.transform;

@@ -17,12 +17,14 @@ MonoBehaviour:
   Type: 0
   Prefab: {fileID: 1799503499698754, guid: 0eea16a93a3714247bedd5ce3e43849c, type: 3}
   Damage: 20
+  Price: 0
   WeaponSubType: 5
   MaxAmmo: 150
   ClipSize: 30
   FireRate: 1
   Accuracy: 2
   Range: 600
+  FireMode: 1
   ReloadTime: 2
   Spread: 2
   AdsPosition: {x: 0.001, y: -0.126, z: 0.15}

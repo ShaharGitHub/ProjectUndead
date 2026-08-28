@@ -39,6 +39,14 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
         m_eyesCamera = eyesCamera;
     }
 
+    public void SetData(BaseWeaponData weaponData)
+    {
+        m_currentWeaponData = weaponData;
+        m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
+        m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
+        InitAllServices();
+    }
+
     public void SetSelfDestroy(bool toDestroy)
     {
         if (toDestroy)
@@ -65,6 +73,16 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
         return m_destroyOnEquip;
     }
 
+    public void DisableDestroyOnEquip()
+    {
+        m_destroyOnEquip = true;
+    }
+
+    public void DestroyWeapon()
+    {
+        Destroy(gameObject);
+    }
+
     public IEnumerator SelfDestroyRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -83,8 +101,9 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
         playerInteract.InteractWeapon(this);
     }
 
-    // ======================================== IPriceable ======================================== //
 
+    // ======================================== IPriceable ======================================== //
+    
     public string GetPricePrompt()
     {
         if (!m_destroyOnEquip)
@@ -93,30 +112,14 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
             return "";
     }
 
+
     // ======================================== IWeapon ======================================== //
-
-    public void SetData(BaseWeaponData weaponData)
-    {
-        m_currentWeaponData = weaponData;
-        m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
-        m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
-        InitAllServices();
-    }
-
+    
     public IWeaponLogic GetLogic()
     {
         return m_currentWeaponLogic;
     }
 
-    public void DisableDestroyOnEquip()
-    {
-        m_destroyOnEquip = true;
-    }
-
-    public void DestroyWeapon()
-    {
-        Destroy(gameObject);
-    }
 
     // ======================================== Services ======================================== //
 

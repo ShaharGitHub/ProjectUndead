@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public Camera m_eyesCamera { get; private set; }
 
     // Events
+    public event Action<InputData> OnPlayerLocomotionInputUpdated;
     public event Action<InputData> OnPlayerInputUpdated;
     public event Action<WeaponManager> OnWeaponSwitched;
     public event Action<bool, Vector3> OnWeaponAiming;
@@ -34,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         m_inputProvider = GetService<IInputProvider>();
         if (m_inputProvider != null)
             m_inputProvider.OnInputUpdated += HandleInputUpdated;
+            m_inputProvider.OnLocomotionInputUpdated += HandleInputUpdated;
     }
 
     private void RegisterAllServices()
@@ -88,6 +90,11 @@ public class PlayerManager : MonoBehaviour
     private void HandleInputUpdated(InputData data)
     {
         OnPlayerInputUpdated?.Invoke(data);
+    }
+
+    private void HandleLocomotionInputUpdated(InputData data)
+    {
+        OnPlayerLocomotionInputUpdated?.Invoke(data);
     }
 
     public void HandleWeaponSwitched(WeaponManager weapon)

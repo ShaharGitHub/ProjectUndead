@@ -15,11 +15,6 @@ public class EnemySpawner : MonoBehaviour
     private Coroutine m_spawnCoroutine;
 
 
-    private void Start()
-    {
-        StartEnemySpawn();
-    }
-
     public void StartEnemySpawn()
     {
         if (m_spawnCoroutine != null)
