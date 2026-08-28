@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
         m_inputProvider = GetService<IInputProvider>();
         if (m_inputProvider != null)
             m_inputProvider.OnInputUpdated += HandleInputUpdated;
-            m_inputProvider.OnLocomotionInputUpdated += HandleInputUpdated;
+            m_inputProvider.OnLocomotionInputUpdated += HandleLocomotionInputUpdated;
     }
 
     private void RegisterAllServices()
