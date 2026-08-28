@@ -93,7 +93,10 @@ public class PlayerInteract : BasePlayerService
     public void InteractWeapon(WeaponManager weaponManager)
     {
         PlayerWeaponSlot weaponSlots = m_playerManager.GetService<PlayerWeaponSlot>();
-        weaponSlots?.AddWeapon(weaponManager);
+        if (weaponSlots == null)
+            return;
+
+        weaponSlots.IsWeaponExist(weaponManager);
     }
 
     private void OnDrawGizmos()

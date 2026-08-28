@@ -277,5 +277,13 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
 
         Debug.Log("Reload finished");
     }
+
+    public void TryAddAmmo()
+    {
+        if (CurrentReserveAmmo >= m_data.MaxAmmo)
+            return;
+
+        CurrentReserveAmmo = Mathf.Min(CurrentReserveAmmo + m_data.ClipSize, m_data.MaxAmmo - m_data.ClipSize);
+    }
     #endregion
 }

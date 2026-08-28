@@ -63,6 +63,42 @@ public class PlayerWeaponSlot : BasePlayerService
         }
     }
 
+    public void IsWeaponExist(WeaponManager pickedWeapon)
+    {
+        WeaponManager currentWeapon = null;
+
+        // Get picked weapon name
+        string pickedWeaponName = pickedWeapon.GetLogic().GetData().Name;
+
+        // Check if weapon exist in the slots
+        foreach (var weapon in m_weaponSlots)
+        {
+            if (weapon == null)
+                continue;
+
+            if (weapon.GetLogic().GetData().Name == pickedWeaponName)
+            {
+                currentWeapon = weapon;
+                break;
+            }
+        }
+
+        // Weapon found
+        if (currentWeapon != null)
+        {
+            // Ammo weapon
+            if (currentWeapon.GetLogic() is IAmmoWeapon ammoWeapon)
+            {
+                ammoWeapon.TryAddAmmo();
+            }
+        }
+        // Weapon not found
+        else
+        {
+            AddWeapon(pickedWeapon);
+        }
+    }
+
     private int GetSlot()
     {
         for (int i = 0; i < m_weaponSlots.Length; i++)

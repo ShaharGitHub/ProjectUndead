@@ -207,5 +207,13 @@ public class ThrowableWeaponLogic : IWeaponLogic, IAmmoWeapon
         // Destroy the granade
         Object.Destroy(weapon.gameObject);
     }
+
+    public void TryAddAmmo()
+    {
+        if (CurrentReserveAmmo >= m_data.MaxAmmo)
+            return;
+
+        CurrentReserveAmmo = Mathf.Min(CurrentReserveAmmo + 1, m_data.MaxAmmo);
+    }
     #endregion
 }

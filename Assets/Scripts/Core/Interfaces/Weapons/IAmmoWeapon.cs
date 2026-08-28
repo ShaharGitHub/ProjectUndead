@@ -8,4 +8,5 @@ public interface IAmmoWeapon
 
     bool TryConsumeAmmo();          // Try to use ammo
     bool TryReload(WeaponManager weaponManager);
+    void TryAddAmmo();
 }
