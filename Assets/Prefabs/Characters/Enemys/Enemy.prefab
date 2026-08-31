@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyVFX
   m_enemyManager: {fileID: 0}
+  m_fallbackBaseSpeed: 0.25
 --- !u!1 &1851423834014356181
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8604294586955627381}
   - component: {fileID: 8211890359011027022}
-  - component: {fileID: 6077386531980409589}
+  - component: {fileID: 2312280600484549046}
   - component: {fileID: 3728342929854051673}
   - component: {fileID: 4300149619263004840}
   m_Layer: 0
@@ -311,7 +312,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &6077386531980409589
+--- !u!136 &2312280600484549046
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,7 +331,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -350,10 +351,10 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &4300149619263004840
@@ -369,7 +370,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   <EnemyData>k__BackingField: {fileID: 11400000, guid: d40735c4d4af5a344a0e3f4e33a9ca85, type: 2}
+  m_enemyState: 1
+  m_attackRange: 2.5
+  m_runRange: 8
+  m_walkRange: 100
   <m_target>k__BackingField: {fileID: 0}
+  <m_targetDistanceSqr>k__BackingField: 0
 --- !u!1 &6092609881922499734
 GameObject:
   m_ObjectHideFlags: 0

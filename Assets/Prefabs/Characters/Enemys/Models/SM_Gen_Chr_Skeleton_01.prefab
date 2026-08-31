@@ -1503,6 +1503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3864096761209981755}
   - component: {fileID: 1436675549834719163}
+  - component: {fileID: 8798690652477787932}
   m_Layer: 0
   m_Name: SM_Gen_Chr_Skeleton_01
   m_TagString: Untagged
@@ -1573,6 +1574,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8798690652477787932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019351386366890193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d003d3317cbf0c4287b65e2ec99c213, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootIK
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  raycastDistance: 1.5
+  footOffset: 0.1
+  ikWeight: 1
 --- !u!1 &3063209047611386935
 GameObject:
   m_ObjectHideFlags: 0

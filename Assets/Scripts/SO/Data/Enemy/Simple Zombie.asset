@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
   Model: {fileID: 3019351386366890193, guid: cad3205a176885348bffb0a716d5266a, type: 3}
   MaxHealth: 100
-  WalkSpeed: 0.4
-  SprintSpeed: 4
+  WalkSpeed: 1
+  SprintSpeed: 5
   JumpHeight: 1

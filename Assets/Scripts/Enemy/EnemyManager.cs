@@ -2,18 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.InputSystem.LowLevel;
+using static UnityEngine.CullingGroup;
 
 public class EnemyManager : MonoBehaviour, IDamageable
 {
-    // Enemy data
-    [field: SerializeField] public EnemyDataSO EnemyData { get; private set; }
-
     // All enemy sub services
     private Dictionary<Type, object> m_services = new Dictionary<Type, object>();
 
-    [field: SerializeField] public Transform m_target { get; private set; }
+    [Header("Data:")]
+    [field: SerializeField] public EnemyDataSO EnemyData { get; private set; }
 
+    [Header("Settings:")]
+    [SerializeField] private EnemyStates m_enemyState = EnemyStates.Idle;
+    [SerializeField] private float m_attackRange = 10f;
+    [SerializeField] private float m_runRange = 100f;
+    [SerializeField] private float m_walkRange = 200f;
+
+    [Header("Target:")]
+    [field: SerializeField] public Transform m_target { get; private set; }
+    [field: SerializeField] public float m_targetDistanceSqr { get; private set; }
+
+    // Events
+    public event Action<EnemyStates> OnStateChanged;
     public event Action<float> OnTakeDamage;
 
 
@@ -21,11 +32,39 @@ public class EnemyManager : MonoBehaviour, IDamageable
     {
         RegisterAllServices();
         InitAllServices();
+
+        OnStateChanged?.Invoke(m_enemyState);
+    }
+
+    private void Update()
+    {
+        CheckDistanceFromTarget();
     }
 
     public void SetFollowTarget(Transform target)
     {
         m_target = target;
+    }
+
+    private void CheckDistanceFromTarget()
+    {
+        if (m_target == null)
+            return;
+
+        float distance = Vector3.Distance(transform.position, m_target.position);
+
+        EnemyStates newState;
+
+        if (distance < m_attackRange) newState = EnemyStates.Attack;
+        else if (distance < m_runRange) newState = EnemyStates.Run;
+        else if (distance < m_walkRange) newState = EnemyStates.Walk;
+        else newState = EnemyStates.Idle;
+
+        if (newState != m_enemyState)
+        {
+            m_enemyState = newState;
+            OnStateChanged?.Invoke(m_enemyState);
+        }
     }
 
     public void TakeDamage(float damage)

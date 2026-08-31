@@ -1,19 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyVFX : BaseEnemyService
 {
-    [SerializeField] private RuntimeAnimatorController m_controller;
-    [SerializeField] private Animator m_animator;
+    [SerializeField] private float m_fallbackBaseSpeed = 0.25f;
+    private Dictionary<string, float> m_clipBaseSpeeds = new Dictionary<string, float>();
+    private Animator m_animator;
     private NavMeshAgent m_agent;
 
-    public float baseAnimationSpeed = 0.25f;
 
+    private void OnDisable()
+    {
+        m_enemyManager.OnStateChanged -= ChangeAnimation;
+    }
 
     public override void Init()
     {
         base.Init();
-        Invoke(nameof(GetAnimatorDelay), 0.1f);
+        Invoke(nameof(GetReferences), 0.1f);
+
+        m_enemyManager.OnStateChanged += ChangeAnimation;
     }
 
     private void Update()
@@ -21,41 +28,70 @@ public class EnemyVFX : BaseEnemyService
         if (m_animator == null || m_agent == null)
             return;
 
-
-        float currentSpeed = m_agent.velocity.magnitude;
-
-        // מכוון את קצב הפעלת האנימציה כך שיתאים למהירות בפועל
-        float speedRatio = currentSpeed / baseAnimationSpeed;
-        m_animator.speed = Mathf.Clamp(speedRatio, 0.01f, 3f); // הגנה מפני 0 או קפיצות
-
-        // אופציונלי: פרמטר לבלנד בין idle להליכה
-        //m_animator.SetFloat("Speed", currentSpeed);
+        UpdateAnimator();
     }
 
-    private void GetAnimatorDelay()
+    private void GetReferences()
     {
         if (m_enemyManager != null)
         {
             m_animator = m_enemyManager.GetComponentInChildren<Animator>();
-
             m_agent = m_enemyManager.GetComponent<NavMeshAgent>();
 
-            //if (m_animator == null || m_controller == null)
-            //    return;
+            if (m_animator == null || m_agent == null)
+                return;
 
-            //m_animator.runtimeAnimatorController = m_controller;
-            //m_animator.applyRootMotion = false;
+            // Disable animator root motion
+            m_animator.applyRootMotion = false;
+
+            CacheAllClipSpeeds();
         }
     }
 
-    //public float SetDeath()
-    //{
-    //    int random = Random.Range(1, 3);
+    private void CacheAllClipSpeeds()
+    {
+        // Get all animator clips
+        AnimationClip[] clips = m_animator.runtimeAnimatorController.animationClips;
 
-    //    m_animator.SetInteger("IsDead", random);
+        foreach (AnimationClip clip in clips)
+        {
+            // Get animation avarage speed
+            float speed = clip.averageSpeed.magnitude;
 
-    //    AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
-    //    float currentClipLength = stateInfo.length;
-    //    return currentClipLength;
-    //}
+            if (speed > 0.001f)
+            {
+                // Svae animation avarage speed in dictionary
+                m_clipBaseSpeeds[clip.name] = speed;
+            }
+        }
+    }
+
+    private void UpdateAnimator()
+    {
+        // Get current animation
+        AnimatorClipInfo[] clipInfo = m_animator.GetCurrentAnimatorClipInfo(0);
+        if (clipInfo.Length == 0)
+            return;
+
+        // Get current animation name
+        string currentClipName = clipInfo[0].clip.name;
+
+        // Get current animation base speed from dictionary
+        float baseSpeed = m_clipBaseSpeeds.TryGetValue(currentClipName, out float cachedSpeed)
+            ? cachedSpeed
+            : m_fallbackBaseSpeed;
+
+        // Get NavMesh speed and calculate animator speed
+        float currentSpeed = m_agent.velocity.magnitude;
+        float speedRatio = currentSpeed / baseSpeed;
+
+        // Update animator speed
+        m_animator.speed = Mathf.Clamp(speedRatio, 0.01f, 3f);
+    }
+
+    private void ChangeAnimation(EnemyStates enemyState)
+    {
+        if (m_animator != null)
+            m_animator.SetInteger("State", (int)enemyState);
+    }
 }

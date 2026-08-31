@@ -1,3 +1,4 @@
+public enum EnemyStates { Idle = 0, Walk = 1, Run = 2, Attack = 3, Dead = 4 }
 public enum FireModes { Auto, Semi, Burst }
 public enum VfxTypes
 { 
