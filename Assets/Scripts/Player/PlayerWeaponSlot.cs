@@ -25,7 +25,8 @@ public class PlayerWeaponSlot : BasePlayerService
 
     private void OnDisable()
     {
-        m_playerManager.OnPlayerInputUpdated -= HandleInput;
+        //m_playerManager.OnPlayerInputUpdated -= HandleInput;
+        m_playerManager.OnPlayerLocomotionInputUpdated -= HandleInput; // <-- Can cause low FPS !!!
         m_playerManager.OnWeaponSwitched -= HandleWeaponSwitched;
     }
 
@@ -35,7 +36,8 @@ public class PlayerWeaponSlot : BasePlayerService
 
         if (m_playerManager == null) return;
 
-        m_playerManager.OnPlayerInputUpdated += HandleInput;
+        //m_playerManager.OnPlayerInputUpdated += HandleInput;
+        m_playerManager.OnPlayerLocomotionInputUpdated += HandleInput; // <-- Can cause low FPS !!!
         m_playerManager.OnWeaponSwitched += HandleWeaponSwitched;
     }
 
