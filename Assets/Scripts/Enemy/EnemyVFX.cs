@@ -3,48 +3,50 @@ using UnityEngine.AI;
 
 public class EnemyVFX : BaseEnemyService
 {
-    //[SerializeField] private RuntimeAnimatorController m_controller;
-    //[SerializeField] private Animator m_animator;
-    //private NavMeshAgent m_agent;
+    [SerializeField] private RuntimeAnimatorController m_controller;
+    [SerializeField] private Animator m_animator;
+    private NavMeshAgent m_agent;
+
+    public float baseAnimationSpeed = 0.25f;
 
 
-    //public override void Init()
-    //{
-    //    base.Init();
-    //    Invoke(nameof(GetAnimatorDelay), 0.1f);
-    //}
+    public override void Init()
+    {
+        base.Init();
+        Invoke(nameof(GetAnimatorDelay), 0.1f);
+    }
 
-    //private void Update()
-    //{
-    //    if (m_animator == null || m_agent == null || m_enemyManager == null)
-    //        return;
+    private void Update()
+    {
+        if (m_animator == null || m_agent == null)
+            return;
 
 
-    //    float currentSpeed = m_agent.velocity.magnitude;
+        float currentSpeed = m_agent.velocity.magnitude;
 
-    //    if (m_enemyManager.EnemyData.WalkSpeed > 0)
-    //    {
-    //        m_animator.speed = currentSpeed / m_enemyManager.EnemyData.WalkSpeed;
-    //    }
-    //}
+        // מכוון את קצב הפעלת האנימציה כך שיתאים למהירות בפועל
+        float speedRatio = currentSpeed / baseAnimationSpeed;
+        m_animator.speed = Mathf.Clamp(speedRatio, 0.01f, 3f); // הגנה מפני 0 או קפיצות
 
-    //private void GetAnimatorDelay()
-    //{
-    //    if (m_enemyManager != null)
-    //    {
-    //        m_animator = m_enemyManager.GetComponentInChildren<Animator>();
+        // אופציונלי: פרמטר לבלנד בין idle להליכה
+        //m_animator.SetFloat("Speed", currentSpeed);
+    }
 
-    //        m_agent = m_enemyManager.GetComponent<NavMeshAgent>();
-    //        if (m_agent == null)
-    //            m_agent = m_enemyManager.GetComponentInChildren<NavMeshAgent>();
+    private void GetAnimatorDelay()
+    {
+        if (m_enemyManager != null)
+        {
+            m_animator = m_enemyManager.GetComponentInChildren<Animator>();
 
-    //        if (m_animator == null || m_controller == null)
-    //            return;
+            m_agent = m_enemyManager.GetComponent<NavMeshAgent>();
 
-    //        m_animator.runtimeAnimatorController = m_controller;
-    //        m_animator.applyRootMotion = false;
-    //    }
-    //}
+            //if (m_animator == null || m_controller == null)
+            //    return;
+
+            //m_animator.runtimeAnimatorController = m_controller;
+            //m_animator.applyRootMotion = false;
+        }
+    }
 
     //public float SetDeath()
     //{
