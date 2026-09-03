@@ -376,6 +376,8 @@ MonoBehaviour:
   m_walkRange: 100
   <m_target>k__BackingField: {fileID: 0}
   <m_targetDistanceSqr>k__BackingField: 0
+  m_IsStateByDistance: 1
+  m_forceEnemyState: 0
 --- !u!1 &6092609881922499734
 GameObject:
   m_ObjectHideFlags: 0
