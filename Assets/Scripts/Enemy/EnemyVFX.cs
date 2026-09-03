@@ -92,6 +92,21 @@ public class EnemyVFX : BaseEnemyService
     private void ChangeAnimation(EnemyStates enemyState)
     {
         if (m_animator != null)
-            m_animator.SetInteger("State", (int)enemyState);
+        {
+            m_animator.SetInteger("DeathType", -1);
+            m_animator.SetInteger("State", -1);
+
+            // Change to death animation
+            if (enemyState == EnemyStates.Dead)
+            {
+                int randomDeath = Random.Range(1, 3);
+                m_animator.SetInteger("DeathType", randomDeath);
+            }
+            else
+            {
+                // Deal with other animations
+                m_animator.SetInteger("State", (int)enemyState);
+            }
+        }
     }
 }

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using static UnityEngine.CullingGroup;
 
 public class EnemyManager : MonoBehaviour, IDamageable
 {
@@ -27,6 +25,10 @@ public class EnemyManager : MonoBehaviour, IDamageable
     public event Action<EnemyStates> OnStateChanged;
     public event Action<float> OnTakeDamage;
 
+    [Header("DEBUG:")]
+    [SerializeField] private bool m_IsStateByDistance = true;
+    [SerializeField] private EnemyStates m_forceEnemyState;
+
 
     private void Start()
     {
@@ -39,6 +41,10 @@ public class EnemyManager : MonoBehaviour, IDamageable
     private void Update()
     {
         CheckDistanceFromTarget();
+
+        // DEUBG
+        if (!m_IsStateByDistance)
+            ChangeState(m_forceEnemyState);
     }
 
     public void SetFollowTarget(Transform target)
@@ -48,18 +54,25 @@ public class EnemyManager : MonoBehaviour, IDamageable
 
     private void CheckDistanceFromTarget()
     {
+        if (!m_IsStateByDistance)
+            return;
+
         if (m_target == null)
             return;
 
         float distance = Vector3.Distance(transform.position, m_target.position);
 
         EnemyStates newState;
-
         if (distance < m_attackRange) newState = EnemyStates.Attack;
         else if (distance < m_runRange) newState = EnemyStates.Run;
         else if (distance < m_walkRange) newState = EnemyStates.Walk;
         else newState = EnemyStates.Idle;
 
+        ChangeState(newState);
+    }
+
+    public void ChangeState(EnemyStates newState)
+    {
         if (newState != m_enemyState)
         {
             m_enemyState = newState;

@@ -158,6 +158,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4300149619263004840, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
+      propertyPath: m_ForceState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300149619263004840, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
+      propertyPath: <m_target>k__BackingField
+      value: 
+      objectReference: {fileID: 155133745}
+    - target: {fileID: 5271217374124751515, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5430366366733233731, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
       propertyPath: m_Name
       value: Enemy
