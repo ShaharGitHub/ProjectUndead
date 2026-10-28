@@ -141,7 +141,7 @@ Material:
     - _Enable_Triplanar_Normals: 0
     - _Enable_Triplanar_Texture: 0
     - _Generate_From_Base_Normals: 0
-    - _Metallic: 0.158
+    - _Metallic: 0.5
     - _Normal_Intensity: 1
     - _OVERLAY_UV_CHANNEL: 0
     - _Overlay_Intensity: 0.468
@@ -150,7 +150,7 @@ Material:
     - _ReceiveShadows: 1
     - _Side_Metallic: 0
     - _Side_Smoothness: 0
-    - _Smoothness: 0.486
+    - _Smoothness: 0
     - _Snow_Level: 0
     - _Snow_Metallic: 0.1
     - _Snow_Smoothness: 0.5
@@ -203,7 +203,7 @@ Material:
     - _Triplanar_Tiling_Bottom: {r: 1, g: 1, b: 0, a: 0}
     - _Triplanar_Tiling_Side: {r: 1, g: 1, b: 0, a: 0}
     - _Triplanar_Tiling_Top: {r: 1, g: 1, b: 0, a: 0}
-    - _UVPan: {r: 0, g: 0.1, b: 0, a: 0}
+    - _UVPan: {r: -0.0025, g: 0.005, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &183661189101230896

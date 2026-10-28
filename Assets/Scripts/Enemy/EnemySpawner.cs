@@ -88,7 +88,9 @@ public class EnemySpawner : MonoBehaviour
             enemyManager.ModifyStopDistance(false);
             enemyManager.ChangeState(EnemyStates.Walk);
             enemyManager.SetFollowTarget(m_StartPoint);
+
             yield return new WaitUntil(() => Vector3.Distance(enemy.transform.position, m_StartPoint.position) <= 0.2f);
+
             enemyManager.SetFollowTarget(m_followTarget);
             enemyManager.ModifyStopDistance(true);
             enemyManager.ModifyStateByDistance(true);
