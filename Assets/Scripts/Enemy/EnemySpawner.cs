@@ -5,6 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("References:")]
     [SerializeField] private Transform m_followTarget;
+    [SerializeField] private Transform m_StartPoint;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private Transform m_spawnPoint;
 
@@ -14,6 +15,16 @@ public class EnemySpawner : MonoBehaviour
 
     private Coroutine m_spawnCoroutine;
 
+
+    private void Start()
+    {
+        DEBUG_FindPlayer();
+    }
+
+    private void DEBUG_FindPlayer()
+    {
+        m_followTarget = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     public void StartEnemySpawn()
     {
@@ -52,20 +63,35 @@ public class EnemySpawner : MonoBehaviour
         while (true);
     }
 
+    [ContextMenu("Spawn Enemy")]
     private void SpawnEnemy()
     {
-        if (m_enemyPrefab == null || m_followTarget == null || m_spawnPoint == null)
+        if (m_enemyPrefab == null || m_followTarget == null || m_spawnPoint == null || m_StartPoint == null)
             return;
 
+        StartCoroutine(SpawnEnemyProcess());
+    }
+
+    IEnumerator SpawnEnemyProcess()
+    {
         GameObject enemy = null;
         enemy = Instantiate(m_enemyPrefab, m_spawnPoint.position, Quaternion.identity);
         if (enemy == null)
-            return;
+            yield break;
+
+        // Wait 1 frame
+        yield return null;
 
         if (enemy.TryGetComponent<EnemyManager>(out EnemyManager enemyManager))
         {
+            enemyManager.ModifyStateByDistance(false);
+            enemyManager.ModifyStopDistance(false);
+            enemyManager.ChangeState(EnemyStates.Walk);
+            enemyManager.SetFollowTarget(m_StartPoint);
+            yield return new WaitUntil(() => Vector3.Distance(enemy.transform.position, m_StartPoint.position) <= 0.2f);
             enemyManager.SetFollowTarget(m_followTarget);
+            enemyManager.ModifyStopDistance(true);
+            enemyManager.ModifyStateByDistance(true);
         }
-
     }
 }

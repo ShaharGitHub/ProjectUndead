@@ -13,6 +13,8 @@ public class PlayerModel : BasePlayerService
     {
         if (m_playerManager == null || m_playerManager.PlayerData.Model == null) return;
 
-        GameObject currentModel = Instantiate(m_playerManager.PlayerData.Model, transform.position, Quaternion.identity, transform);
+        GameObject currentModel = Instantiate(m_playerManager.PlayerData.Model, transform);
+        currentModel.transform.localPosition = Vector3.zero;
+        currentModel.transform.localRotation = Quaternion.identity;
     }
 }

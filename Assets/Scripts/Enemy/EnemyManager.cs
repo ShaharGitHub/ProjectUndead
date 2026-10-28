@@ -43,13 +43,23 @@ public class EnemyManager : MonoBehaviour, IDamageable
         CheckDistanceFromTarget();
 
         // DEUBG
-        if (!m_IsStateByDistance)
-            ChangeState(m_forceEnemyState);
+        //if (!m_IsStateByDistance)
+        //    ChangeState(m_forceEnemyState);
     }
 
     public void SetFollowTarget(Transform target)
     {
         m_target = target;
+    }
+
+    public void ModifyStateByDistance(bool isStateByDistance)
+    {
+        m_IsStateByDistance = isStateByDistance;
+    }
+
+    public void ModifyStopDistance(bool isStopDistance)
+    {
+        GetService<EnemyControl>()?.ModifyStopDistance(isStopDistance);
     }
 
     private void CheckDistanceFromTarget()

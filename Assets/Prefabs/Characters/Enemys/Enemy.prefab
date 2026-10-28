@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   <EnemyData>k__BackingField: {fileID: 11400000, guid: d40735c4d4af5a344a0e3f4e33a9ca85, type: 2}
-  m_enemyState: 1
+  m_enemyState: 0
   m_attackRange: 2.5
   m_runRange: 8
   m_walkRange: 100

@@ -28,7 +28,7 @@ public class EnemyVFX : BaseEnemyService
         if (m_animator == null || m_agent == null)
             return;
 
-        UpdateAnimator();
+        //UpdateAnimator();
     }
 
     private void GetReferences()

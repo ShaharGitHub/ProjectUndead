@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class EnemyControl : BaseEnemyService
 {
     private NavMeshAgent m_agent;
+    private float _stopDistacne;
 
 
     private void OnDisable()
@@ -20,6 +21,9 @@ public class EnemyControl : BaseEnemyService
 
         m_enemyManager.OnStateChanged += SetAgentStats;
 
+        if (m_agent != null)
+            _stopDistacne = m_agent.stoppingDistance;
+
         //SetAgentStats();
     }
 
@@ -32,6 +36,16 @@ public class EnemyControl : BaseEnemyService
 
         // DEBUG
         //SetAgentStats();
+    }
+
+    public void ModifyStopDistance(bool isStopDistance)
+    {
+        if (m_agent == null) return;
+
+        if (isStopDistance)
+            m_agent.stoppingDistance = _stopDistacne;
+        else
+            m_agent.stoppingDistance = 0;
     }
 
     private void SetAgentStats(EnemyStates enemyState)
