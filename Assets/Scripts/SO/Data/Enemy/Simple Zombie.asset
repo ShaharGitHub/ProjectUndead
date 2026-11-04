@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f9b95ce7d60364a8bba3e512b8c863, type: 3}
   m_Name: Simple Zombie
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataSO
-  Model: {fileID: 3019351386366890193, guid: cad3205a176885348bffb0a716d5266a, type: 3}
+  Model: {fileID: 1965423065467750, guid: 46e3fad9d63edad4e95366d675950f78, type: 3}
   MaxHealth: 100
   WalkSpeed: 1
   SprintSpeed: 5

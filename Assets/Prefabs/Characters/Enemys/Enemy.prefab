@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3184930953480697254}
-  - component: {fileID: 5271217374124751515}
   m_Layer: 7
   m_Name: VFX
   m_TagString: Untagged
@@ -32,20 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8604294586955627381}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5271217374124751515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457900779210012919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393f818fd460f8d469e82aa8bf690356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyVFX
-  m_enemyManager: {fileID: 0}
-  m_fallbackBaseSpeed: 0.25
 --- !u!1 &1851423834014356181
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +267,7 @@ Transform:
   - {fileID: 1220612423156265889}
   - {fileID: 1306948308760488465}
   - {fileID: 3184930953480697254}
+  - {fileID: 7767312478393597761}
   - {fileID: 6421148822565470101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -378,6 +364,52 @@ MonoBehaviour:
   <m_targetDistanceSqr>k__BackingField: 0
   m_IsStateByDistance: 1
   m_forceEnemyState: 0
+--- !u!1 &5674084466120033140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7767312478393597761}
+  - component: {fileID: 3145319720114896666}
+  m_Layer: 0
+  m_Name: Animator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7767312478393597761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5674084466120033140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8604294586955627381}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3145319720114896666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5674084466120033140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe5e3747967588479858bbab8bb6e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
+  m_enemyManager: {fileID: 0}
+  m_controller: {fileID: 9100000, guid: 34dccd7b7cb58fa40aae9f5a51cacf17, type: 2}
 --- !u!1 &6092609881922499734
 GameObject:
   m_ObjectHideFlags: 0
