@@ -14,6 +14,11 @@ public class ArmoryUI : MonoBehaviour, IInteractable
         TriggerButtonLogic();
     }
 
+    public void SetInteractAllowance(bool allow)
+    {
+
+    }
+
     private void TriggerButtonLogic()
     {
         if (m_toActive)

@@ -77,10 +77,10 @@ public class MeleeWeaponLogic : IWeaponLogic
 
     private void PerformMeleeAttack(WeaponManager weaponManager)
     {
-        if (weaponManager.m_eyesCamera == null) return;
+        if (weaponManager._eyesCamera == null) return;
 
         // Get camera and weapons layer
-        Transform cam = weaponManager.m_eyesCamera.transform;
+        Transform cam = weaponManager._eyesCamera.transform;
         int layerMask = ~LayerMask.GetMask("Weapon");   // ~ = Get all masks BUT not weapon
 
         // Attack diraction

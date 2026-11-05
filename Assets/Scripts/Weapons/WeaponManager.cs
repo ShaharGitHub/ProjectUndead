@@ -6,16 +6,19 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 {
-    private Dictionary<Type, object> m_weaponServices = new Dictionary<Type, object>();
+    private Dictionary<Type, object> _weaponServices = new Dictionary<Type, object>();
 
     [Header("Data:")]
-    [SerializeField] private BaseWeaponData m_currentWeaponData;
-    [SerializeField] private IWeaponLogic m_currentWeaponLogic;
-    [SerializeField] private float m_timeToSelfDestroy;
-    private Coroutine m_selfDestroyCoroutine;
-    [SerializeField] private bool m_destroyOnEquip = false;
+    [SerializeField] private BaseWeaponData _currentWeaponData;
+    [SerializeField] private IWeaponLogic _currentWeaponLogic;
+    [SerializeField] private float _timeToSelfDestroy = 5;
+    private Coroutine _selfDestroyCoroutine;
+    [SerializeField] private bool _destroyOnEquip = false;
+    [SerializeField] private bool _allowInteract = true;
 
-    public Camera m_eyesCamera { get; private set; }
+    public event Action OnInteracted;
+
+    public Camera _eyesCamera { get; private set; }
 
 
     private void Awake()
@@ -25,10 +28,10 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public void Start()
     {
-        if (m_currentWeaponData != null)
+        if (_currentWeaponData != null)
         {
-            m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
-            m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
+            _currentWeaponLogic = _currentWeaponData.CreateWeapon();
+            _currentWeaponLogic.SetDestroyOnEquip(_destroyOnEquip);
 
             InitAllServices();
         }
@@ -36,14 +39,14 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public void SetEyes(Camera eyesCamera)
     {
-        m_eyesCamera = eyesCamera;
+        _eyesCamera = eyesCamera;
     }
 
     public void SetData(BaseWeaponData weaponData)
     {
-        m_currentWeaponData = weaponData;
-        m_currentWeaponLogic = m_currentWeaponData.CreateWeapon();
-        m_currentWeaponLogic.SetDestroyOnEquip(m_destroyOnEquip);
+        _currentWeaponData = weaponData;
+        _currentWeaponLogic = _currentWeaponData.CreateWeapon();
+        _currentWeaponLogic.SetDestroyOnEquip(_destroyOnEquip);
         InitAllServices();
     }
 
@@ -51,18 +54,18 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
     {
         if (toDestroy)
         {
-            if (m_selfDestroyCoroutine != null)
+            if (_selfDestroyCoroutine != null)
             {
-                StopCoroutine(m_selfDestroyCoroutine);
+                StopCoroutine(_selfDestroyCoroutine);
             }
-            m_selfDestroyCoroutine = StartCoroutine(SelfDestroyRoutine(m_timeToSelfDestroy));
+            _selfDestroyCoroutine = StartCoroutine(SelfDestroyRoutine(_timeToSelfDestroy));
             //Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=red>activate Self Destroy!</color>");
         }
         else
         {
-            if (m_selfDestroyCoroutine != null)
+            if (_selfDestroyCoroutine != null)
             {
-                StopCoroutine(m_selfDestroyCoroutine);
+                StopCoroutine(_selfDestroyCoroutine);
                 //Debug.Log($"<color=cyan>{m_currentWeaponData.Name}</color> <color=green>cancel Self Destroy</color>");
             }
         }
@@ -70,12 +73,12 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public bool GetDestroyOnEquip()
     {
-        return m_destroyOnEquip;
+        return _destroyOnEquip;
     }
 
     public void DisableDestroyOnEquip()
     {
-        m_destroyOnEquip = true;
+        _destroyOnEquip = true;
     }
 
     public void DestroyWeapon()
@@ -93,21 +96,31 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public string GetInteractPrompt()
     {
-        return $"{GlobalData.Prompts.Interact} <color=#08FFFA>{m_currentWeaponData.Name}</color>";
+        if (!_allowInteract) return "";
+
+        return $"{GlobalData.Prompts.Interact} <color=#08FFFA>{_currentWeaponData.Name}</color>";
     }
 
     public void Interact(PlayerInteract playerInteract)
     {
+        if (!_allowInteract) return;
+
         playerInteract.InteractWeapon(this);
+        OnInteracted?.Invoke();
+    }
+
+    public void SetInteractAllowance(bool allow)
+    {
+        _allowInteract = allow;
     }
 
 
     // ======================================== IPriceable ======================================== //
-    
+
     public string GetPricePrompt()
     {
-        if (!m_destroyOnEquip)
-            return $"{GlobalData.Prompts.Price} <color=#FFCD20>{m_currentWeaponData.Price}$</color>";
+        if (!_destroyOnEquip)
+            return $"{GlobalData.Prompts.Price} <color=#FFCD20>{_currentWeaponData.Price}$</color>";
         else
             return "";
     }
@@ -117,7 +130,7 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
     
     public IWeaponLogic GetLogic()
     {
-        return m_currentWeaponLogic;
+        return _currentWeaponLogic;
     }
 
 
@@ -135,18 +148,18 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
             var type = service.GetType();
 
             // Register service only in not exist in dictionary
-            if (!m_weaponServices.ContainsKey(type))
+            if (!_weaponServices.ContainsKey(type))
             {
-                m_weaponServices.Add(type, service);
+                _weaponServices.Add(type, service);
             }
 
             // Register service also by his interface to dictionary
             var interfaces = type.GetInterfaces();
             foreach (var i in interfaces)
             {
-                if (!m_weaponServices.ContainsKey(i))
+                if (!_weaponServices.ContainsKey(i))
                 {
-                    m_weaponServices.Add(i, service);
+                    _weaponServices.Add(i, service);
                 }
             }
         }
@@ -155,7 +168,7 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
     private void InitAllServices()
     {
         // Distinct = Initiate all services BUT to initiate same service twice (service added to list as BaseWeaponService Or Class name)
-        foreach (var service in m_weaponServices.Values.OfType<BaseWeaponService>().Distinct())
+        foreach (var service in _weaponServices.Values.OfType<BaseWeaponService>().Distinct())
         {
             service.GetWeaponManager(this);
             service.Init();
@@ -165,11 +178,11 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
     // Where T : class = Ensures T is a class and not a ValueType (like int), allowing the function to return null safely
     public T GetService<T>() where T : class
     {
-        if (!m_weaponServices.ContainsKey(typeof(T)))
+        if (!_weaponServices.ContainsKey(typeof(T)))
         {
             return null;
         }
-        return (T)m_weaponServices[typeof(T)];
+        return (T)_weaponServices[typeof(T)];
     }
 
     private void OnDrawGizmos()

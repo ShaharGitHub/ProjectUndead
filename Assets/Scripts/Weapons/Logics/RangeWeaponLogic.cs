@@ -153,8 +153,8 @@ public class RangeWeaponLogic : IWeaponLogic, IAmmoWeapon
         if (weaponMuzzle == null) return;
 
         // Get eyes camera
-        if (weaponManager.m_eyesCamera == null) return;
-        Transform cam = weaponManager.m_eyesCamera.transform;
+        if (weaponManager._eyesCamera == null) return;
+        Transform cam = weaponManager._eyesCamera.transform;
 
         // ~ = Get all masks BUT not weapon
         int layerMask = ~LayerMask.GetMask("Weapon");
