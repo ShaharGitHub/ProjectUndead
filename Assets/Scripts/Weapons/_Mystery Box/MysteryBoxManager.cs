@@ -8,6 +8,14 @@ public class MysteryBoxManager : MonoBehaviour, IInteractable, IPriceable
 
     [Header("References:")]
     [SerializeField] private WeaponManager _displayWeapon;    // The weapon that floats above the box
+    [SerializeField] private GameObject[] _lights;
+
+    [Header("Lid:")]
+    [SerializeField] private Transform _boxLid;               // The LidPivot object (pivot on the hinge!)
+    [SerializeField] private float _lidOpenAngle = -125f;     // Flip the sign if it opens inward
+    [SerializeField] private float _lidAnimationDuration = 1.0f;
+    private Quaternion _lidClosedRotation;
+    private Quaternion _lidOpenRotation;
 
     [Header("Settings:")]
     [SerializeField] private List<BaseWeaponData> _weaponPool;
@@ -23,8 +31,18 @@ public class MysteryBoxManager : MonoBehaviour, IInteractable, IPriceable
 
     private void Awake()
     {
+        if (_boxLid != null)
+        {
+            // Open rotation is relative to the closed one, so the lid keeps its original orientation
+            _lidClosedRotation = _boxLid.localRotation;
+            _lidOpenRotation = _lidClosedRotation * Quaternion.Euler(_lidOpenAngle, 0f, 0f);
+        }
+
         _displayWeapon.OnInteracted += HandleWeaponTaken;
-        CloseBox(); // Start closed
+
+        // Start closed
+        CloseBox();
+        StartCoroutine(LidRoutine(false));
     }
 
     private void OnDestroy()
@@ -71,8 +89,20 @@ public class MysteryBoxManager : MonoBehaviour, IInteractable, IPriceable
 
     // ======================================== Box flow ======================================== //
 
+    [ContextMenu("Active Box")]
+    public void DEBUG_TestBoxRoutineFromInspector()
+    {
+        StartCoroutine(BoxRoutine());
+    }
+
     private IEnumerator BoxRoutine()
     {
+        // Open the lid first, only then show the weapon
+        yield return LidRoutine(true);
+        OpenBox();
+
+        yield return new WaitForSeconds(_lidAnimationDuration);
+
         // ---- Spin: keep swapping the weapon ---- //
         _state = BoxStates.Spinning;
         _displayWeapon.SetInteractAllowance(false);
@@ -99,6 +129,10 @@ public class MysteryBoxManager : MonoBehaviour, IInteractable, IPriceable
         }
 
         CloseBox();
+
+        yield return new WaitForSeconds(0.2f);
+
+        yield return LidRoutine(false);
     }
 
     private void HandleWeaponTaken()
@@ -106,11 +140,47 @@ public class MysteryBoxManager : MonoBehaviour, IInteractable, IPriceable
         _weaponTaken = true;
     }
 
+    private void OpenBox()
+    {
+        ModifyLightStatus(true);
+    }
+
     private void CloseBox()
     {
         _displayWeapon.SetInteractAllowance(false);
         _displayWeapon.gameObject.SetActive(false);
         _state = BoxStates.Idle;
+        ModifyLightStatus(false);
+    }
+
+    private IEnumerator LidRoutine(bool toOpen)
+    {
+        if (_boxLid == null) yield break;
+
+        Quaternion startRotation = _boxLid.localRotation;
+        Quaternion targetRotation = toOpen ? _lidOpenRotation : _lidClosedRotation;
+
+        float timer = 0f;
+        while (timer < _lidAnimationDuration)
+        {
+            timer += Time.deltaTime;
+
+            // timer / duration = progress from 0 to 1, SmoothStep makes the movement softer
+            float progress = Mathf.SmoothStep(0f, 1f, timer / _lidAnimationDuration);
+            _boxLid.localRotation = Quaternion.Slerp(startRotation, targetRotation, progress);
+
+            yield return null;
+        }
+
+        _boxLid.localRotation = targetRotation; // Make sure it ends exactly on target
+    }
+
+    private void ModifyLightStatus(bool active)
+    {
+        foreach (GameObject light in _lights)
+        {
+            light.SetActive(active);
+        }
     }
 
     // Random weapon, never the same one twice in a row (so every swap is visible)

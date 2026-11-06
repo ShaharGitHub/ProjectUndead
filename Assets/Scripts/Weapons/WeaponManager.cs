@@ -119,6 +119,8 @@ public class WeaponManager : MonoBehaviour, IWeapon, IInteractable, IPriceable
 
     public string GetPricePrompt()
     {
+        if (!_allowInteract) return "";
+
         if (!_destroyOnEquip)
             return $"{GlobalData.Prompts.Price} <color=#FFCD20>{_currentWeaponData.Price}$</color>";
         else
