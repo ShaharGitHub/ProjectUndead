@@ -1231,7 +1231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7add4150b02ba6d4fa3982c6186a8c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmoryUI
-  m_enemySpawner: {fileID: 9139869872566227110}
+  m_enemySpawner: {fileID: 8148146344988962680}
   m_toActive: 0
 --- !u!1 &5561135547286666252
 GameObject:
@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7add4150b02ba6d4fa3982c6186a8c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmoryUI
-  m_enemySpawner: {fileID: 9139869872566227110}
+  m_enemySpawner: {fileID: 8148146344988962680}
   m_toActive: 1
 --- !u!1 &6350184065484844502
 GameObject:
@@ -1344,8 +1344,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2766202485594784412}
   - component: {fileID: 377340281762404758}
+  - component: {fileID: 8148146344988962680}
   m_Layer: 0
-  m_Name: Zombies
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1388,6 +1389,24 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &8148146344988962680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6350184065484844502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f573de91c1e2b4b88f628c96bf760d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  m_followTarget: {fileID: 0}
+  m_StartPoint: {fileID: 6390968152134605704}
+  m_enemyPrefab: {fileID: 5430366366733233731, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
+  m_spawnPoint: {fileID: 4808666534147078061}
+  m_spawnInitDelay: 0
+  m_spawnRepeatTime: 2
 --- !u!1 &7193895246740942998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,9 +1538,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7334512006103792968}
-  - component: {fileID: 9139869872566227110}
   m_Layer: 0
-  m_Name: Enemy Spawner
+  m_Name: Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1541,29 +1559,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2342180930604363485}
+  - {fileID: 6435767363761392878}
   - {fileID: 4808666534147078061}
   - {fileID: 6390968152134605704}
-  - {fileID: 6435767363761392878}
   m_Father: {fileID: 2766202485594784412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9139869872566227110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7983334085009716281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f573de91c1e2b4b88f628c96bf760d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  m_followTarget: {fileID: 0}
-  m_StartPoint: {fileID: 6390968152134605704}
-  m_enemyPrefab: {fileID: 5430366366733233731, guid: c8b1fd10e9ed0b94e93050f82fe2b6a3, type: 3}
-  m_spawnPoint: {fileID: 4808666534147078061}
-  m_spawnInitDelay: 0
-  m_spawnRepeatTime: 2
 --- !u!1 &8165755528204544203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1759,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 23323031373625554, guid: cc6216d4d0bed944cb7a80cd071376b3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 97a96693c2c6e934cb4c090fe8d0d36c, type: 2}
+    - target: {fileID: 23975550313357894, guid: cc6216d4d0bed944cb7a80cd071376b3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 97a96693c2c6e934cb4c090fe8d0d36c, type: 2}
     m_RemovedComponents:
     - {fileID: 64963352751766746, guid: cc6216d4d0bed944cb7a80cd071376b3, type: 3}
     m_RemovedGameObjects: []
